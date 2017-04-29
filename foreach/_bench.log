@@ -1,0 +1,8 @@
+goos: darwin
+goarch: amd64
+BenchmarkForMap-8          	50000000	        26.8 ns/op
+BenchmarkRangeMap-8        	20000000	        75.8 ns/op
+BenchmarkRangeSlice-8      	500000000	         3.72 ns/op
+BenchmarkRangeSliceKey-8   	300000000	         3.98 ns/op
+PASS
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/foreach	6.832s
