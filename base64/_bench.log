@@ -1,0 +1,6 @@
+goos: darwin
+goarch: amd64
+BenchmarkBase64decode-8   	10000000	       163 ns/op
+BenchmarkBase64regex-8    	   50000	     31265 ns/op
+PASS
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/base64	3.718s
