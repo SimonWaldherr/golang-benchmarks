@@ -1,8 +1,0 @@
-goos: darwin
-goarch: amd64
-BenchmarkNumberRegEx-8     	   50000	     23939 ns/op
-BenchmarkFulltextRegEx-8   	  100000	     19992 ns/op
-BenchmarkNumberParse-8     	30000000	        57.8 ns/op
-BenchmarkFulltextParse-8   	 1000000	      1176 ns/op
-PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/between	6.643s
