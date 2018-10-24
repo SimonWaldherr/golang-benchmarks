@@ -1,5 +1,8 @@
 # Go Benchmarks
 
+![Gopher Racing](https://raw.githubusercontent.com/SimonWaldherr/golang-benchmarks/master/_gophers_race.jpg "Gopher Racing - by Renee French")  
+*Gopher drawings by [Renee French](http://reneefrench.blogspot.com)*
+
 In programming in general, and in Golang in particular, many roads lead to Rome.
 From time to time I ask myself which of these ways is the fastest. 
 In Golang there is a wonderful solution, with `go test -bench` you can measure the speed very easily and quickly.
