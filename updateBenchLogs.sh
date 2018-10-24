@@ -1,5 +1,7 @@
 #!/bin/bash
 
+declare -a benchs=(base64 between concat contains foreach hash index parse random regexp)
+
 cat > README.md <<- EOM
 # Go Benchmarks
 
@@ -7,6 +9,17 @@ In programming in general, and in Golang in particular, many roads lead to Rome.
 From time to time I ask myself which of these ways is the fastest. 
 In Golang there is a wonderful solution, with \`go test -bench\` you can measure the speed very easily and quickly.
 In order for you to benefit from it too, I will publish such benchmarks in this repository in the future.
+
+## ToC
+
+EOM
+
+for i in "${benchs[@]}"
+do
+    echo "* [$i](https://github.com/SimonWaldherr/golang-benchmarks#$i)" >> README.md
+done
+
+cat >> README.md <<- EOM
 
 ## Golang?
 
@@ -29,7 +42,7 @@ EOM
 
 go fmt ./...
 
-declare -a benchs=(base64 between concat contains foreach hash index parse random regexp)
+
 
 for i in "${benchs[@]}"
 do

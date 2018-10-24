@@ -5,6 +5,19 @@ From time to time I ask myself which of these ways is the fastest.
 In Golang there is a wonderful solution, with `go test -bench` you can measure the speed very easily and quickly.
 In order for you to benefit from it too, I will publish such benchmarks in this repository in the future.
 
+## ToC
+
+* [base64](https://github.com/SimonWaldherr/golang-benchmarks#base64)
+* [between](https://github.com/SimonWaldherr/golang-benchmarks#between)
+* [concat](https://github.com/SimonWaldherr/golang-benchmarks#concat)
+* [contains](https://github.com/SimonWaldherr/golang-benchmarks#contains)
+* [foreach](https://github.com/SimonWaldherr/golang-benchmarks#foreach)
+* [hash](https://github.com/SimonWaldherr/golang-benchmarks#hash)
+* [index](https://github.com/SimonWaldherr/golang-benchmarks#index)
+* [parse](https://github.com/SimonWaldherr/golang-benchmarks#parse)
+* [random](https://github.com/SimonWaldherr/golang-benchmarks#random)
+* [regexp](https://github.com/SimonWaldherr/golang-benchmarks#regexp)
+
 ## Golang?
 
 I published another repository where I show some Golang examples.
