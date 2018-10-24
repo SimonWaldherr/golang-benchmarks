@@ -213,6 +213,163 @@ PASS
 ok  	_/Users/simonwaldherr/git/golang-benchmarks/concat	45.930s
 ```
 
+### contains
+
+```go
+package contains
+
+import (
+	"bytes"
+	"regexp"
+	"strings"
+	"testing"
+)
+
+// strings.Contains
+func contains() bool {
+	return strings.Contains("Lorem Ipsum", "em Ip")
+}
+
+func containsNot() bool {
+	return strings.Contains("Lorem Ipsum", "Dolor")
+}
+
+func TestContains(t *testing.T) {
+	if contains() == false {
+		t.Error("ERROR: contains")
+	}
+	if containsNot() == true {
+		t.Error("ERROR: contains not")
+	}
+}
+
+func BenchmarkContains(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		contains()
+	}
+}
+
+func BenchmarkContainsNot(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		containsNot()
+	}
+}
+
+// bytes.Contains
+func containsBytes() bool {
+	return bytes.Contains([]byte("Lorem Ipsum"), []byte("em Ip"))
+}
+
+func containsBytesNot() bool {
+	return bytes.Contains([]byte("Lorem Ipsum"), []byte("Dolor"))
+}
+
+func TestContainsBytes(t *testing.T) {
+	if containsBytes() == false {
+		t.Error("ERROR: bytes contains")
+	}
+	if containsBytesNot() == true {
+		t.Error("ERROR: bytes contains not")
+	}
+}
+
+func BenchmarkContainsBytes(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		containsBytes()
+	}
+}
+
+func BenchmarkContainsBytesNot(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		containsBytesNot()
+	}
+}
+
+// regexp.MustCompile + regexp.MatchString
+func compileMatch(re *regexp.Regexp) bool {
+	matched := re.MatchString("Lorem Ipsum")
+	return matched
+}
+
+func compileMatchNot(re *regexp.Regexp) bool {
+	matched := re.MatchString("Lorem Ipsum")
+	return matched
+}
+
+func TestCompileMatch(t *testing.T) {
+	re1 := regexp.MustCompile("em Ip")
+	re2 := regexp.MustCompile("Dolor")
+	if compileMatch(re1) == false {
+		t.Error("ERROR: compile match")
+	}
+	if compileMatchNot(re2) == true {
+		t.Error("ERROR: compile match not")
+	}
+}
+
+func BenchmarkCompileMatch(b *testing.B) {
+	re := regexp.MustCompile("em Ip")
+	for n := 0; n < b.N; n++ {
+		compileMatch(re)
+	}
+}
+
+func BenchmarkCompileMatchNot(b *testing.B) {
+	re := regexp.MustCompile("Dolor")
+	for n := 0; n < b.N; n++ {
+		compileMatchNot(re)
+	}
+}
+
+// regexp.MatchString
+func match() bool {
+	matched, _ := regexp.MatchString("em Ip", "Lorem Ipsum")
+	return matched
+}
+
+func matchNot() bool {
+	matched, _ := regexp.MatchString("Dolor", "Lorem Ipsum")
+	return matched
+}
+
+func TestMatch(t *testing.T) {
+	if match() == false {
+		t.Error("ERROR: match")
+	}
+	if matchNot() == true {
+		t.Error("ERROR: match not")
+	}
+}
+
+func BenchmarkMatch(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		match()
+	}
+}
+
+func BenchmarkMatchNot(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		matchNot()
+	}
+}
+```
+
+```
+$ go test -bench . -benchmem
+goos: darwin
+goarch: amd64
+BenchmarkContains-8           	100000000	        14.7 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsNot-8        	100000000	        13.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsBytes-8      	50000000	        23.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsBytesNot-8   	50000000	        27.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompileMatch-8       	10000000	       122 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompileMatchNot-8    	20000000	        69.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMatch-8              	  200000	      6561 ns/op	   38912 B/op	      27 allocs/op
+BenchmarkMatchNot-8           	  300000	      7574 ns/op	   38912 B/op	      27 allocs/op
+PASS
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/contains	12.069s
+```
+
 ### foreach
 
 ```go
@@ -302,6 +459,181 @@ BenchmarkRangeSlice-8      	500000000	         3.73 ns/op	       0 B/op	       0
 BenchmarkRangeSliceKey-8   	500000000	         3.90 ns/op	       0 B/op	       0 allocs/op
 PASS
 ok  	_/Users/simonwaldherr/git/golang-benchmarks/foreach	7.600s
+```
+
+### hash
+
+```go
+package hash
+
+import (
+	"crypto/md5"
+	"crypto/sha1"
+	"crypto/sha256"
+	"crypto/sha512"
+	"github.com/jzelinskie/whirlpool"
+	"golang.org/x/crypto/sha3"
+	"hash"
+	"hash/adler32"
+	"hash/crc32"
+	"hash/fnv"
+	"math/rand"
+	"testing"
+)
+
+func benchmarkHashAlgo(b *testing.B, h hash.Hash) {
+	data := make([]byte, 2048)
+	rand.Read(data)
+
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		h.Write(data)
+		h.Sum(nil)
+	}
+}
+
+func BenchmarkAdler32(b *testing.B) {
+	benchmarkHashAlgo(b, adler32.New())
+}
+
+func BenchmarkCRC32(b *testing.B) {
+	benchmarkHashAlgo(b, crc32.NewIEEE())
+}
+
+func BenchmarkFnv128(b *testing.B) {
+	benchmarkHashAlgo(b, fnv.New128())
+}
+
+func BenchmarkMD5(b *testing.B) {
+	benchmarkHashAlgo(b, md5.New())
+}
+
+func BenchmarkSHA1(b *testing.B) {
+	benchmarkHashAlgo(b, sha1.New())
+}
+
+func BenchmarkSHA256(b *testing.B) {
+	benchmarkHashAlgo(b, sha256.New())
+}
+
+func BenchmarkSHA512(b *testing.B) {
+	benchmarkHashAlgo(b, sha512.New())
+}
+
+func BenchmarkSHA3256(b *testing.B) {
+	benchmarkHashAlgo(b, sha3.New256())
+}
+
+func BenchmarkSHA3512(b *testing.B) {
+	benchmarkHashAlgo(b, sha3.New512())
+}
+
+func BenchmarkWhirlpool(b *testing.B) {
+	benchmarkHashAlgo(b, whirlpool.New())
+}
+```
+
+```
+$ go test -bench . -benchmem
+goos: darwin
+goarch: amd64
+BenchmarkAdler32-8     	 1000000	      1052 ns/op	       8 B/op	       1 allocs/op
+BenchmarkCRC32-8       	10000000	       193 ns/op	       8 B/op	       1 allocs/op
+BenchmarkFnv128-8      	  200000	      9713 ns/op	      16 B/op	       1 allocs/op
+BenchmarkMD5-8         	  500000	      3420 ns/op	      16 B/op	       1 allocs/op
+BenchmarkSHA1-8        	  500000	      2530 ns/op	      32 B/op	       1 allocs/op
+BenchmarkSHA256-8      	  200000	      5773 ns/op	      32 B/op	       1 allocs/op
+BenchmarkSHA512-8      	  300000	      4619 ns/op	      64 B/op	       1 allocs/op
+BenchmarkSHA3256-8     	  200000	      8197 ns/op	     512 B/op	       3 allocs/op
+BenchmarkSHA3512-8     	  100000	     14362 ns/op	     576 B/op	       3 allocs/op
+BenchmarkWhirlpool-8   	   20000	     70905 ns/op	      64 B/op	       1 allocs/op
+PASS
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/hash	16.497s
+```
+
+### index
+
+```go
+package index
+
+import (
+	"math/rand"
+	"strconv"
+	"testing"
+)
+
+var NumItems int = 1000000
+
+var ms map[string]string
+var ks []string
+
+var mi map[int]string
+var ki []int
+
+func initMapStringIndex() {
+	ms = make(map[string]string)
+	ks = make([]string, 0)
+
+	for i := 0; i < NumItems; i++ {
+		key := strconv.Itoa(rand.Intn(NumItems))
+		ms[key] = "value" + strconv.Itoa(i)
+		ks = append(ks, key)
+	}
+}
+
+func initMapIntIndex() {
+	mi = make(map[int]string)
+	ki = make([]int, 0)
+
+	for i := 0; i < NumItems; i++ {
+		key := rand.Intn(NumItems)
+		mi[key] = "value" + strconv.Itoa(i)
+		ki = append(ki, key)
+	}
+}
+
+func init() {
+	initMapStringIndex()
+	initMapIntIndex()
+}
+
+func BenchmarkMapStringKeys(b *testing.B) {
+	i := 0
+
+	for n := 0; n < b.N; n++ {
+		if _, ok := ms[ks[i]]; ok {
+		}
+
+		i++
+		if i >= NumItems {
+			i = 0
+		}
+	}
+}
+
+func BenchmarkMapIntKeys(b *testing.B) {
+	i := 0
+
+	for n := 0; n < b.N; n++ {
+		if _, ok := mi[ki[i]]; ok {
+		}
+
+		i++
+		if i >= NumItems {
+			i = 0
+		}
+	}
+}
+```
+
+```
+$ go test -bench . -benchmem
+goos: darwin
+goarch: amd64
+BenchmarkMapStringKeys-8   	20000000	       117 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMapIntKeys-8      	20000000	        84.2 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/index	6.454s
 ```
 
 ### parse

@@ -27,11 +27,14 @@ If you\'re interested in new programming languages, you should definitely take a
 
 EOM
 
-declare -a benchs=(base64 between concat foreach parse random regexp)
+go fmt ./...
+
+declare -a benchs=(base64 between concat contains foreach hash index parse random regexp)
 
 for i in "${benchs[@]}"
 do
     cd $i
+    gofmt -s -w -l -e .
     echo "### $i"                       >> ../README.md
     echo                                >> ../README.md
     echo "\`\`\`go"                     >> ../README.md
