@@ -1,3 +1,6 @@
+// Package random compares math/rand with crypto/rand.
+// math/rand is much faster than crypto/rand, but it
+// returns only a pseudo random number.
 package random
 
 import (

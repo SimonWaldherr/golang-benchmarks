@@ -1,3 +1,4 @@
+// Package parse benchmarks parsing.
 package parse
 
 import (

@@ -1,6 +1,6 @@
 # Go Benchmarks
 
-![Gopher Racing](https://raw.githubusercontent.com/SimonWaldherr/golang-benchmarks/master/_gophers_race.jpg "Gopher Racing - by Renee French")  
+[![Gopher Racing](https://raw.githubusercontent.com/SimonWaldherr/golang-benchmarks/master/_gophers_race.jpg "Gopher Racing - by Renee French")](https://github.com/SimonWaldherr/golang-benchmarks)  
 *Gopher drawings by [Renee French](http://reneefrench.blogspot.com)*
 
 In programming in general, and in Golang in particular, many roads lead to Rome.
@@ -41,6 +41,9 @@ If you\'re interested in new programming languages, you should definitely take a
 ### base64
 
 ```go
+// Package base64 benchmarks some base64 functions.
+// On all tested systems it's faster to decode a
+// base64 encoded string instead of a check via regex.
 package base64
 
 import (
@@ -84,15 +87,18 @@ func BenchmarkBase64regex(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
-BenchmarkBase64decode-8   	10000000	       165 ns/op	      40 B/op	       3 allocs/op
-BenchmarkBase64regex-8    	   50000	     31337 ns/op	   98160 B/op	     218 allocs/op
+BenchmarkBase64decode-8   	10000000	       192 ns/op	      40 B/op	       3 allocs/op
+BenchmarkBase64regex-8    	   50000	     38991 ns/op	   98160 B/op	     218 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/base64	3.790s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/base64	4.435s
 ```
 
 ### between
 
 ```go
+// Package between compares the performance of checking
+// if a number is between to other numbers via regex
+// and by parsing the number as integer.
 package between
 
 import (
@@ -176,17 +182,22 @@ func BenchmarkFulltextParse(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
-BenchmarkNumberRegEx-8     	   50000	     23462 ns/op	   92176 B/op	     162 allocs/op
-BenchmarkFulltextRegEx-8   	  100000	     19682 ns/op	   87680 B/op	     124 allocs/op
-BenchmarkNumberParse-8     	20000000	        57.0 ns/op	       0 B/op	       0 allocs/op
-BenchmarkFulltextParse-8   	 1000000	      1130 ns/op	      32 B/op	       2 allocs/op
+BenchmarkNumberRegEx-8     	   50000	     25743 ns/op	   92176 B/op	     162 allocs/op
+BenchmarkFulltextRegEx-8   	  100000	     24219 ns/op	   87680 B/op	     124 allocs/op
+BenchmarkNumberParse-8     	30000000	        58.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFulltextParse-8   	 1000000	      1291 ns/op	      32 B/op	       2 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/between	6.035s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/between	7.373s
 ```
 
 ### concat
 
 ```go
+// Package concat benchmarks the performance of
+// various string concatination methods.
+// Instead of just concat a string to another string
+// it is also possible (and much faster) to use
+// a bytes buffer.
 package concat
 
 import (
@@ -222,16 +233,18 @@ func BenchmarkConcatBuilder(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
-BenchmarkConcatString-8    	 1000000	     40091 ns/op	  503992 B/op	       1 allocs/op
-BenchmarkConcatBuffer-8    	200000000	         7.41 ns/op	       2 B/op	       0 allocs/op
-BenchmarkConcatBuilder-8   	1000000000	         3.13 ns/op	       6 B/op	       0 allocs/op
+BenchmarkConcatString-8    	 1000000	     50605 ns/op	  503992 B/op	       1 allocs/op
+BenchmarkConcatBuffer-8    	200000000	         7.95 ns/op	       2 B/op	       0 allocs/op
+BenchmarkConcatBuilder-8   	1000000000	         3.97 ns/op	       6 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/concat	45.930s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/concat	57.403s
 ```
 
 ### contains
 
 ```go
+// Package contains tests various ways of checking
+// if a string is contained in another string.
 package contains
 
 import (
@@ -374,21 +387,22 @@ func BenchmarkMatchNot(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
-BenchmarkContains-8           	100000000	        14.7 ns/op	       0 B/op	       0 allocs/op
-BenchmarkContainsNot-8        	100000000	        13.8 ns/op	       0 B/op	       0 allocs/op
-BenchmarkContainsBytes-8      	50000000	        23.9 ns/op	       0 B/op	       0 allocs/op
-BenchmarkContainsBytesNot-8   	50000000	        27.5 ns/op	       0 B/op	       0 allocs/op
-BenchmarkCompileMatch-8       	10000000	       122 ns/op	       0 B/op	       0 allocs/op
-BenchmarkCompileMatchNot-8    	20000000	        69.9 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMatch-8              	  200000	      6561 ns/op	   38912 B/op	      27 allocs/op
-BenchmarkMatchNot-8           	  300000	      7574 ns/op	   38912 B/op	      27 allocs/op
+BenchmarkContains-8           	100000000	        13.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsNot-8        	100000000	        13.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsBytes-8      	50000000	        24.2 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsBytesNot-8   	50000000	        25.2 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompileMatch-8       	10000000	       137 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompileMatchNot-8    	20000000	        73.2 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMatch-8              	  200000	      6403 ns/op	   38912 B/op	      27 allocs/op
+BenchmarkMatchNot-8           	  200000	      5425 ns/op	   38912 B/op	      27 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/contains	12.069s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/contains	10.863s
 ```
 
 ### foreach
 
 ```go
+// Package foreach benchmarks ranging over slices and maps.
 package foreach
 
 import (
@@ -469,17 +483,20 @@ func BenchmarkRangeSliceKey(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
-BenchmarkForMap-8          	50000000	        27.0 ns/op	       0 B/op	       0 allocs/op
-BenchmarkRangeMap-8        	20000000	        76.2 ns/op	       0 B/op	       0 allocs/op
-BenchmarkRangeSlice-8      	500000000	         3.73 ns/op	       0 B/op	       0 allocs/op
-BenchmarkRangeSliceKey-8   	500000000	         3.90 ns/op	       0 B/op	       0 allocs/op
+BenchmarkForMap-8          	50000000	        33.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRangeMap-8        	20000000	        80.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRangeSlice-8      	500000000	         3.79 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRangeSliceKey-8   	300000000	         4.09 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/foreach	7.600s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/foreach	7.381s
 ```
 
 ### hash
 
 ```go
+// Package hash benchmarks various hashing algorithms.
+// Especially with hashing algorithms, faster is not always better.
+// One should always decide on the basis of the respective requirements.
 package hash
 
 import (
@@ -553,23 +570,24 @@ func BenchmarkWhirlpool(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
-BenchmarkAdler32-8     	 1000000	      1052 ns/op	       8 B/op	       1 allocs/op
-BenchmarkCRC32-8       	10000000	       193 ns/op	       8 B/op	       1 allocs/op
-BenchmarkFnv128-8      	  200000	      9713 ns/op	      16 B/op	       1 allocs/op
-BenchmarkMD5-8         	  500000	      3420 ns/op	      16 B/op	       1 allocs/op
-BenchmarkSHA1-8        	  500000	      2530 ns/op	      32 B/op	       1 allocs/op
-BenchmarkSHA256-8      	  200000	      5773 ns/op	      32 B/op	       1 allocs/op
-BenchmarkSHA512-8      	  300000	      4619 ns/op	      64 B/op	       1 allocs/op
-BenchmarkSHA3256-8     	  200000	      8197 ns/op	     512 B/op	       3 allocs/op
-BenchmarkSHA3512-8     	  100000	     14362 ns/op	     576 B/op	       3 allocs/op
-BenchmarkWhirlpool-8   	   20000	     70905 ns/op	      64 B/op	       1 allocs/op
+BenchmarkAdler32-8     	 2000000	      1139 ns/op	       8 B/op	       1 allocs/op
+BenchmarkCRC32-8       	10000000	       184 ns/op	       8 B/op	       1 allocs/op
+BenchmarkFnv128-8      	  200000	      9386 ns/op	      16 B/op	       1 allocs/op
+BenchmarkMD5-8         	  500000	      3442 ns/op	      16 B/op	       1 allocs/op
+BenchmarkSHA1-8        	  500000	      2693 ns/op	      32 B/op	       1 allocs/op
+BenchmarkSHA256-8      	  300000	      6123 ns/op	      32 B/op	       1 allocs/op
+BenchmarkSHA512-8      	  300000	      4669 ns/op	      64 B/op	       1 allocs/op
+BenchmarkSHA3256-8     	  200000	      8541 ns/op	     512 B/op	       3 allocs/op
+BenchmarkSHA3512-8     	  100000	     15178 ns/op	     576 B/op	       3 allocs/op
+BenchmarkWhirlpool-8   	   20000	     65768 ns/op	      64 B/op	       1 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/hash	16.497s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/hash	19.269s
 ```
 
 ### index
 
 ```go
+// Package index benchmarks access on maps with various data types as keys.
 package index
 
 import (
@@ -646,15 +664,16 @@ func BenchmarkMapIntKeys(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
-BenchmarkMapStringKeys-8   	20000000	       117 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMapIntKeys-8      	20000000	        84.2 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMapStringKeys-8   	20000000	       130 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMapIntKeys-8      	20000000	        76.0 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/index	6.454s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/index	6.281s
 ```
 
 ### parse
 
 ```go
+// Package parse benchmarks parsing.
 package parse
 
 import (
@@ -694,16 +713,19 @@ func BenchmarkParseFloat(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
-BenchmarkParseBool-8    	500000000	         3.25 ns/op	       0 B/op	       0 allocs/op
-BenchmarkParseInt-8     	100000000	        13.6 ns/op	       0 B/op	       0 allocs/op
-BenchmarkParseFloat-8   	20000000	        97.2 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseBool-8    	500000000	         4.40 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseInt-8     	100000000	        17.2 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseFloat-8   	20000000	       122 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/parse	6.414s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/parse	6.911s
 ```
 
 ### random
 
 ```go
+// Package random compares math/rand with crypto/rand.
+// math/rand is much faster than crypto/rand, but it
+// returns only a pseudo random number.
 package random
 
 import (
@@ -758,21 +780,25 @@ func GenerateRandomString(s int) (string, error) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
-BenchmarkMathRand-8           	30000000	        34.9 ns/op	       0 B/op	       0 allocs/op
-BenchmarkCryptoRand-8         	 5000000	       324 ns/op	     162 B/op	       5 allocs/op
-BenchmarkCryptoRandString-8   	10000000	       192 ns/op	     128 B/op	       3 allocs/op
+BenchmarkMathRand-8           	30000000	        45.0 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCryptoRand-8         	 3000000	       404 ns/op	     162 B/op	       5 allocs/op
+BenchmarkCryptoRandString-8   	10000000	       225 ns/op	     128 B/op	       3 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/random	5.209s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/random	5.534s
 ```
 
 ### regexp
 
 ```go
+// Package regexp benchmarks the performance of a pre-compiled regexp match
+// a non-pre-compiled match and JIT-cached-compilation via golibs: https://simonwaldherr.de/go/golibs
 package regexp
 
 import (
 	"regexp"
 	"testing"
+
+	"simonwaldherr.de/go/golibs/regex"
 )
 
 var regexpStr string = `^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,9}$`
@@ -797,15 +823,25 @@ func BenchmarkMatchStringCompiled(b *testing.B) {
 		r.MatchString("john.doe@example.tld")
 	}
 }
+
+func BenchmarkMatchStringGolibs(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		_, err := regex.MatchString("john.doe@example.tld", regexpStr)
+		if err != nil {
+			panic(err)
+		}
+	}
+}
 ```
 
 ```
 $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
-BenchmarkMatchString-8           	  100000	     13764 ns/op	   48224 B/op	      96 allocs/op
-BenchmarkMatchStringCompiled-8   	 2000000	       689 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMatchString-8           	  100000	     19799 ns/op	   48224 B/op	      96 allocs/op
+BenchmarkMatchStringCompiled-8   	 2000000	       755 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMatchStringGolibs-8     	 2000000	       767 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/regexp	3.632s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/regexp	6.832s
 ```
 

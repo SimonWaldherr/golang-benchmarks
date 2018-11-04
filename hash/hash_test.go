@@ -1,3 +1,6 @@
+// Package hash benchmarks various hashing algorithms.
+// Especially with hashing algorithms, faster is not always better.
+// One should always decide on the basis of the respective requirements.
 package hash
 
 import (

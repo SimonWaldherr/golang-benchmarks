@@ -1,3 +1,8 @@
+// Package concat benchmarks the performance of
+// various string concatination methods.
+// Instead of just concat a string to another string
+// it is also possible (and much faster) to use
+// a bytes buffer.
 package concat
 
 import (

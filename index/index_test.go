@@ -1,3 +1,4 @@
+// Package index benchmarks access on maps with various data types as keys.
 package index
 
 import (

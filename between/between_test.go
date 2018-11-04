@@ -1,3 +1,6 @@
+// Package between compares the performance of checking
+// if a number is between to other numbers via regex
+// and by parsing the number as integer.
 package between
 
 import (
