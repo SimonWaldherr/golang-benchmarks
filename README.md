@@ -675,6 +675,7 @@ ok  	_/Users/simonwaldherr/git/golang-benchmarks/index	5.078s
 package math
 
 import (
+	"sync"
 	"sync/atomic"
 	"testing"
 )
@@ -714,6 +715,20 @@ func BenchmarkMathAtomicInt64(b *testing.B) {
 	}
 }
 
+type IntMutex struct {
+	v   int64
+	mux sync.Mutex
+}
+
+func BenchmarkMathMutexInt(b *testing.B) {
+	var m IntMutex
+	for n := 0; n < b.N; n++ {
+		m.mux.Lock()
+		m.v = m.v + 2
+		m.mux.Unlock()
+	}
+}
+
 func BenchmarkMathFloat32(b *testing.B) {
 	var floatVal float32
 	for n := 0; n < b.N; n++ {
@@ -734,14 +749,15 @@ $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
 BenchmarkMathInt8-8          	2000000000	         0.37 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathInt32-8         	2000000000	         0.79 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathInt64-8         	2000000000	         0.30 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathAtomicInt32-8   	300000000	         5.49 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathAtomicInt64-8   	300000000	         5.61 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathFloat32-8       	2000000000	         0.30 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathFloat64-8       	2000000000	         0.61 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathInt32-8         	2000000000	         0.66 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathInt64-8         	2000000000	         0.32 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathAtomicInt32-8   	300000000	         5.55 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathAtomicInt64-8   	300000000	         5.84 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathMutexInt-8      	100000000	        16.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathFloat32-8       	2000000000	         0.79 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathFloat64-8       	2000000000	         0.44 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/math	9.449s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/math	11.767s
 ```
 
 ### parse

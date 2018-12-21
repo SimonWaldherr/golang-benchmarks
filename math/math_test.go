@@ -2,6 +2,7 @@
 package math
 
 import (
+	"sync"
 	"sync/atomic"
 	"testing"
 )
@@ -38,6 +39,20 @@ func BenchmarkMathAtomicInt64(b *testing.B) {
 	var intVal int64
 	for n := 0; n < b.N; n++ {
 		atomic.AddInt64(&intVal, 2)
+	}
+}
+
+type IntMutex struct {
+	v   int64
+	mux sync.Mutex
+}
+
+func BenchmarkMathMutexInt(b *testing.B) {
+	var m IntMutex
+	for n := 0; n < b.N; n++ {
+		m.mux.Lock()
+		m.v = m.v + 2
+		m.mux.Unlock()
 	}
 }
 
