@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -a benchs=(base64 between concat contains foreach hash index parse random regexp)
+declare -a benchs=(base64 between concat contains foreach hash index math parse random regexp)
 
 cat > README.md <<- EOM
 # Go Benchmarks
