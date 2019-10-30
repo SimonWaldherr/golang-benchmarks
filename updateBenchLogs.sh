@@ -42,7 +42,9 @@ EOM
 
 go fmt ./...
 
-
+echo -n "Golang Version: "  >> README.md
+go version                  >> README.md
+echo ""                     >> README.md
 
 for i in "${benchs[@]}"
 do
