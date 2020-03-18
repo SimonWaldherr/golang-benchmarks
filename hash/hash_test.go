@@ -16,6 +16,7 @@ import (
 	"testing"
 
 	"github.com/jzelinskie/whirlpool"
+	"github.com/zeebo/blake3"
 	"golang.org/x/crypto/blake2b"
 	"golang.org/x/crypto/sha3"
 )
@@ -49,6 +50,10 @@ func BenchmarkBlake2b512(b *testing.B) {
 		b.Fatal(err)
 	}
 	benchmarkHashAlgo(b, h)
+}
+
+func BenchmarkBlake3256(b *testing.B) {
+	benchmarkHashAlgo(b, blake3.New())
 }
 
 func BenchmarkCRC32(b *testing.B) {
