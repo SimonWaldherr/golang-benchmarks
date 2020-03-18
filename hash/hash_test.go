@@ -8,14 +8,16 @@ import (
 	"crypto/sha1"
 	"crypto/sha256"
 	"crypto/sha512"
-	"github.com/jzelinskie/whirlpool"
-	"golang.org/x/crypto/sha3"
 	"hash"
 	"hash/adler32"
 	"hash/crc32"
 	"hash/fnv"
 	"math/rand"
 	"testing"
+
+	"github.com/jzelinskie/whirlpool"
+	"golang.org/x/crypto/blake2b"
+	"golang.org/x/crypto/sha3"
 )
 
 func benchmarkHashAlgo(b *testing.B, h hash.Hash) {
@@ -31,6 +33,22 @@ func benchmarkHashAlgo(b *testing.B, h hash.Hash) {
 
 func BenchmarkAdler32(b *testing.B) {
 	benchmarkHashAlgo(b, adler32.New())
+}
+
+func BenchmarkBlake2b256(b *testing.B) {
+	h, err := blake2b.New256(nil)
+	if err != nil {
+		b.Fatal(err)
+	}
+	benchmarkHashAlgo(b, h)
+}
+
+func BenchmarkBlake2b512(b *testing.B) {
+	h, err := blake2b.New512(nil)
+	if err != nil {
+		b.Fatal(err)
+	}
+	benchmarkHashAlgo(b, h)
 }
 
 func BenchmarkCRC32(b *testing.B) {
