@@ -24,7 +24,7 @@ import (
 )
 
 func benchmarkHashAlgo(b *testing.B, h hash.Hash) {
-	data := make([]byte, 2048)
+	data := make([]byte, 10)
 	rand.Read(data)
 
 	b.ResetTimer()
@@ -35,7 +35,7 @@ func benchmarkHashAlgo(b *testing.B, h hash.Hash) {
 }
 
 func benchmarkBCryptHashAlgo(b *testing.B, cost int) {
-	data := make([]byte, 2048)
+	data := make([]byte, 10)
 	rand.Read(data)
 
 	b.ResetTimer()
