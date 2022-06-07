@@ -40,7 +40,7 @@ If you\'re interested in new programming languages, you should definitely take a
 
 ## Benchmark Results
 
-Golang Version: go version go1.18beta1 darwin/amd64
+Golang Version: go version go1.18.2 darwin/amd64
 
 ### base64
 
@@ -92,10 +92,10 @@ $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
 cpu: Intel(R) Core(TM) i7-6920HQ CPU @ 2.90GHz
-BenchmarkBase64decode-8   	 8433190	       121.8 ns/op	      32 B/op	       2 allocs/op
-BenchmarkBase64regex-8    	   54193	     20814 ns/op	   21382 B/op	     198 allocs/op
+BenchmarkBase64decode-8   	10247980	       115.1 ns/op	      32 B/op	       2 allocs/op
+BenchmarkBase64regex-8    	   59446	     20694 ns/op	   21405 B/op	     198 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/base64	3.648s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/base64	2.906s
 ```
 
 ### between
@@ -188,12 +188,12 @@ $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
 cpu: Intel(R) Core(TM) i7-6920HQ CPU @ 2.90GHz
-BenchmarkNumberRegEx-8     	   66166	     15380 ns/op	   16102 B/op	     142 allocs/op
-BenchmarkFulltextRegEx-8   	   88393	     12268 ns/op	   11598 B/op	     104 allocs/op
-BenchmarkNumberParse-8     	20069037	        61.01 ns/op	       0 B/op	       0 allocs/op
-BenchmarkFulltextParse-8   	 1336287	       913.5 ns/op	      32 B/op	       2 allocs/op
+BenchmarkNumberRegEx-8     	   69326	     18003 ns/op	   16140 B/op	     142 allocs/op
+BenchmarkFulltextRegEx-8   	   90928	     11400 ns/op	   11615 B/op	     104 allocs/op
+BenchmarkNumberParse-8     	19442996	        60.13 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFulltextParse-8   	 1276850	       938.1 ns/op	      32 B/op	       2 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/between	6.021s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/between	7.146s
 ```
 
 ### concat
@@ -240,11 +240,11 @@ $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
 cpu: Intel(R) Core(TM) i7-6920HQ CPU @ 2.90GHz
-BenchmarkConcatString-8    	 1000000	     58661 ns/op	  503994 B/op	       1 allocs/op
-BenchmarkConcatBuffer-8    	200141751	         5.710 ns/op	       2 B/op	       0 allocs/op
-BenchmarkConcatBuilder-8   	517038657	         3.592 ns/op	       5 B/op	       0 allocs/op
+BenchmarkConcatString-8    	 1000000	     52572 ns/op	  503994 B/op	       1 allocs/op
+BenchmarkConcatBuffer-8    	206502022	         5.525 ns/op	       2 B/op	       0 allocs/op
+BenchmarkConcatBuilder-8   	536268516	         3.476 ns/op	       5 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/concat	62.792s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/concat	56.715s
 ```
 
 ### contains
@@ -395,16 +395,16 @@ $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
 cpu: Intel(R) Core(TM) i7-6920HQ CPU @ 2.90GHz
-BenchmarkContains-8           	126274000	         9.490 ns/op	       0 B/op	       0 allocs/op
-BenchmarkContainsNot-8        	130826602	         8.798 ns/op	       0 B/op	       0 allocs/op
-BenchmarkContainsBytes-8      	100000000	        11.11 ns/op	       0 B/op	       0 allocs/op
-BenchmarkContainsBytesNot-8   	127874654	         9.298 ns/op	       0 B/op	       0 allocs/op
-BenchmarkCompileMatch-8       	13490476	        88.94 ns/op	       0 B/op	       0 allocs/op
-BenchmarkCompileMatchNot-8    	27309816	        45.23 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMatch-8              	  727933	      1472 ns/op	    1363 B/op	      17 allocs/op
-BenchmarkMatchNot-8           	  819375	      1397 ns/op	    1362 B/op	      17 allocs/op
+BenchmarkContains-8           	132484904	         9.378 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsNot-8        	145563817	         8.358 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsBytes-8      	121738562	         9.749 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsBytesNot-8   	126529509	         9.264 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompileMatch-8       	14706397	        85.30 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompileMatchNot-8    	26225648	        43.34 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMatch-8              	  724819	      1503 ns/op	    1379 B/op	      17 allocs/op
+BenchmarkMatchNot-8           	  811215	      1441 ns/op	    1378 B/op	      17 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/contains	12.569s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/contains	13.586s
 ```
 
 ### foreach
@@ -492,12 +492,12 @@ $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
 cpu: Intel(R) Core(TM) i7-6920HQ CPU @ 2.90GHz
-BenchmarkForMap-8          	46463888	        23.85 ns/op	       0 B/op	       0 allocs/op
-BenchmarkRangeMap-8        	17785903	        66.25 ns/op	       0 B/op	       0 allocs/op
-BenchmarkRangeSlice-8      	392926434	         3.082 ns/op	       0 B/op	       0 allocs/op
-BenchmarkRangeSliceKey-8   	384636010	         3.073 ns/op	       0 B/op	       0 allocs/op
+BenchmarkForMap-8          	50000734	        23.38 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRangeMap-8        	17878722	        64.94 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRangeSlice-8      	467474606	         2.587 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRangeSliceKey-8   	270109731	         4.334 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/foreach	5.567s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/foreach	5.759s
 ```
 
 ### hash
@@ -608,22 +608,22 @@ $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
 cpu: Intel(R) Core(TM) i7-6920HQ CPU @ 2.90GHz
-BenchmarkAdler32-8      	 1354020	       822.2 ns/op	       8 B/op	       1 allocs/op
-BenchmarkBlake2b256-8   	  527420	      2313 ns/op	      32 B/op	       1 allocs/op
-BenchmarkBlake2b512-8   	  519346	      2281 ns/op	      64 B/op	       1 allocs/op
-BenchmarkBlake3256-8    	  414732	      3161 ns/op	      64 B/op	       2 allocs/op
-BenchmarkMMH3-8         	 2679139	       447.3 ns/op	      16 B/op	       1 allocs/op
-BenchmarkCRC32-8        	 8325501	       142.8 ns/op	       8 B/op	       1 allocs/op
-BenchmarkFnv128-8       	  237967	      4991 ns/op	      16 B/op	       1 allocs/op
-BenchmarkMD5-8          	  383752	      3095 ns/op	      16 B/op	       1 allocs/op
-BenchmarkSHA1-8         	  513009	      2596 ns/op	      24 B/op	       1 allocs/op
-BenchmarkSHA256-8       	  220134	      5392 ns/op	      32 B/op	       1 allocs/op
-BenchmarkSHA512-8       	  316483	      3805 ns/op	      64 B/op	       1 allocs/op
-BenchmarkSHA3256-8      	  178647	      6817 ns/op	     512 B/op	       3 allocs/op
-BenchmarkSHA3512-8      	   95163	     12360 ns/op	     576 B/op	       3 allocs/op
-BenchmarkWhirlpool-8    	   23505	     50425 ns/op	      64 B/op	       1 allocs/op
+BenchmarkAdler32-8      	 1467078	       822.6 ns/op	       8 B/op	       1 allocs/op
+BenchmarkBlake2b256-8   	  502388	      2312 ns/op	      32 B/op	       1 allocs/op
+BenchmarkBlake2b512-8   	  533779	      2292 ns/op	      64 B/op	       1 allocs/op
+BenchmarkBlake3256-8    	  418473	      3090 ns/op	      64 B/op	       2 allocs/op
+BenchmarkMMH3-8         	 2714446	       442.8 ns/op	      16 B/op	       1 allocs/op
+BenchmarkCRC32-8        	 8544859	       138.7 ns/op	       8 B/op	       1 allocs/op
+BenchmarkFnv128-8       	  240542	      4810 ns/op	      16 B/op	       1 allocs/op
+BenchmarkMD5-8          	  406254	      2972 ns/op	      16 B/op	       1 allocs/op
+BenchmarkSHA1-8         	  552404	      2569 ns/op	      24 B/op	       1 allocs/op
+BenchmarkSHA256-8       	  214411	      5204 ns/op	      32 B/op	       1 allocs/op
+BenchmarkSHA512-8       	  311247	      3785 ns/op	      64 B/op	       1 allocs/op
+BenchmarkSHA3256-8      	  175573	      6879 ns/op	     512 B/op	       3 allocs/op
+BenchmarkSHA3512-8      	   94333	     11944 ns/op	     576 B/op	       3 allocs/op
+BenchmarkWhirlpool-8    	   23971	     48520 ns/op	      64 B/op	       1 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/hash	19.579s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/hash	19.444s
 ```
 
 ### index
@@ -707,10 +707,10 @@ $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
 cpu: Intel(R) Core(TM) i7-6920HQ CPU @ 2.90GHz
-BenchmarkMapStringKeys-8   	10225266	       121.0 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMapIntKeys-8      	15159615	        80.97 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMapStringKeys-8   	11733114	        99.66 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMapIntKeys-8      	17644652	        69.52 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/index	4.303s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/index	3.882s
 ```
 
 ### json
@@ -802,10 +802,10 @@ $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
 cpu: Intel(R) Core(TM) i7-6920HQ CPU @ 2.90GHz
-BenchmarkJsonMarshal-8     	  600850	      1726 ns/op	     480 B/op	       5 allocs/op
-BenchmarkJsonUnmarshal-8   	  174606	      7467 ns/op	    2136 B/op	      39 allocs/op
+BenchmarkJsonMarshal-8     	  628267	      1667 ns/op	     480 B/op	       5 allocs/op
+BenchmarkJsonUnmarshal-8   	  173764	      6841 ns/op	    2136 B/op	      39 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/json	2.599s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/json	2.488s
 ```
 
 ### math
@@ -889,16 +889,16 @@ $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
 cpu: Intel(R) Core(TM) i7-6920HQ CPU @ 2.90GHz
-BenchmarkMathInt8-8          	1000000000	         0.3538 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathInt32-8         	1000000000	         0.3365 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathInt64-8         	1000000000	         0.3147 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathAtomicInt32-8   	207475148	         5.865 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathAtomicInt64-8   	227856810	         5.302 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathMutexInt-8      	81229758	        14.78 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathFloat32-8       	1000000000	         0.2867 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathFloat64-8       	1000000000	         0.2930 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathInt8-8          	1000000000	         0.2917 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathInt32-8         	1000000000	         0.2862 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathInt64-8         	1000000000	         0.2902 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathAtomicInt32-8   	232174544	         5.066 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathAtomicInt64-8   	236025729	         5.105 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathMutexInt-8      	87023624	        14.33 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathFloat32-8       	1000000000	         0.2759 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathFloat64-8       	1000000000	         0.2787 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/math	6.696s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/math	6.427s
 ```
 
 ### parse
@@ -945,11 +945,11 @@ $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
 cpu: Intel(R) Core(TM) i7-6920HQ CPU @ 2.90GHz
-BenchmarkParseBool-8    	1000000000	         0.4824 ns/op	       0 B/op	       0 allocs/op
-BenchmarkParseInt-8     	82117677	        14.31 ns/op	       0 B/op	       0 allocs/op
-BenchmarkParseFloat-8   	14214274	        90.59 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseBool-8    	1000000000	         0.6119 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseInt-8     	77670862	        15.15 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseFloat-8   	15259270	        82.90 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/parse	3.279s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/parse	3.387s
 ```
 
 ### random
@@ -1013,11 +1013,11 @@ $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
 cpu: Intel(R) Core(TM) i7-6920HQ CPU @ 2.90GHz
-BenchmarkMathRand-8           	45873254	        25.48 ns/op	       0 B/op	       0 allocs/op
-BenchmarkCryptoRand-8         	 1229484	       987.9 ns/op	      56 B/op	       4 allocs/op
-BenchmarkCryptoRandString-8   	 7062478	       166.2 ns/op	     128 B/op	       3 allocs/op
+BenchmarkMathRand-8           	46178828	        24.92 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCryptoRand-8         	 1389388	       857.0 ns/op	      56 B/op	       4 allocs/op
+BenchmarkCryptoRandString-8   	 7378892	       164.5 ns/op	     128 B/op	       3 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/random	4.904s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/random	4.787s
 ```
 
 ### regexp
@@ -1072,10 +1072,10 @@ $ go test -bench . -benchmem
 goos: darwin
 goarch: amd64
 cpu: Intel(R) Core(TM) i7-6920HQ CPU @ 2.90GHz
-BenchmarkMatchString-8           	  129441	      8488 ns/op	    9948 B/op	      86 allocs/op
-BenchmarkMatchStringCompiled-8   	 2205708	       543.8 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMatchStringGolibs-8     	 2125749	       567.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMatchString-8           	  136130	      8527 ns/op	    9963 B/op	      86 allocs/op
+BenchmarkMatchStringCompiled-8   	 2223674	       537.0 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMatchStringGolibs-8     	 2202286	       540.7 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/regexp	4.908s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/regexp	4.928s
 ```
 
