@@ -11,6 +11,7 @@ import (
 	"hash"
 	"hash/adler32"
 	"hash/crc32"
+	"hash/crc64"
 	"hash/fnv"
 	"math/rand"
 	"testing"
@@ -19,6 +20,8 @@ import (
 	"github.com/reusee/mmh3"
 	"github.com/zeebo/blake3"
 	"golang.org/x/crypto/blake2b"
+	"golang.org/x/crypto/md4"
+	"golang.org/x/crypto/ripemd160"
 	"golang.org/x/crypto/sha3"
 )
 
@@ -28,8 +31,9 @@ func benchmarkHashAlgo(b *testing.B, h hash.Hash) {
 
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
+		h.Reset()
 		h.Write(data)
-		h.Sum(nil)
+		_ = h.Sum(nil)
 	}
 }
 
@@ -65,8 +69,40 @@ func BenchmarkCRC32(b *testing.B) {
 	benchmarkHashAlgo(b, crc32.NewIEEE())
 }
 
+func BenchmarkCRC64ISO(b *testing.B) {
+	benchmarkHashAlgo(b, crc64.New(crc64.MakeTable(crc64.ISO)))
+}
+
+func BenchmarkCRC64ECMA(b *testing.B) {
+	benchmarkHashAlgo(b, crc64.New(crc64.MakeTable(crc64.ECMA)))
+}
+
+func BenchmarkFnv32(b *testing.B) {
+	benchmarkHashAlgo(b, fnv.New32())
+}
+
+func BenchmarkFnv32a(b *testing.B) {
+	benchmarkHashAlgo(b, fnv.New32a())
+}
+
+func BenchmarkFnv64(b *testing.B) {
+	benchmarkHashAlgo(b, fnv.New64())
+}
+
+func BenchmarkFnv64a(b *testing.B) {
+	benchmarkHashAlgo(b, fnv.New64a())
+}
+
 func BenchmarkFnv128(b *testing.B) {
 	benchmarkHashAlgo(b, fnv.New128())
+}
+
+func BenchmarkFnv128a(b *testing.B) {
+	benchmarkHashAlgo(b, fnv.New128a())
+}
+
+func BenchmarkMD4(b *testing.B) {
+	benchmarkHashAlgo(b, md4.New())
 }
 
 func BenchmarkMD5(b *testing.B) {
@@ -77,8 +113,16 @@ func BenchmarkSHA1(b *testing.B) {
 	benchmarkHashAlgo(b, sha1.New())
 }
 
+func BenchmarkSHA224(b *testing.B) {
+	benchmarkHashAlgo(b, sha256.New224())
+}
+
 func BenchmarkSHA256(b *testing.B) {
 	benchmarkHashAlgo(b, sha256.New())
+}
+
+func BenchmarkSHA384(b *testing.B) {
+	benchmarkHashAlgo(b, sha512.New384())
 }
 
 func BenchmarkSHA512(b *testing.B) {
@@ -91,6 +135,10 @@ func BenchmarkSHA3256(b *testing.B) {
 
 func BenchmarkSHA3512(b *testing.B) {
 	benchmarkHashAlgo(b, sha3.New512())
+}
+
+func BenchmarkRIPEMD160(b *testing.B) {
+	benchmarkHashAlgo(b, ripemd160.New())
 }
 
 func BenchmarkWhirlpool(b *testing.B) {
