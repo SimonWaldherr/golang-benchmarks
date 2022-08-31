@@ -19,6 +19,7 @@ import (
 	"github.com/jzelinskie/whirlpool"
 	"github.com/reusee/mmh3"
 	"github.com/zeebo/blake3"
+	"golang.org/x/crypto/bcrypt"
 	"golang.org/x/crypto/blake2b"
 	"golang.org/x/crypto/md4"
 	"golang.org/x/crypto/ripemd160"
@@ -26,7 +27,7 @@ import (
 )
 
 func benchmarkHashAlgo(b *testing.B, h hash.Hash) {
-	data := make([]byte, 2048)
+	data := make([]byte, 10)
 	rand.Read(data)
 
 	b.ResetTimer()
@@ -37,8 +38,42 @@ func benchmarkHashAlgo(b *testing.B, h hash.Hash) {
 	}
 }
 
+func benchmarkBCryptHashAlgo(b *testing.B, cost int) {
+	data := make([]byte, 10)
+	rand.Read(data)
+
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+		bcrypt.GenerateFromPassword(data, cost)
+	}
+}
+
 func BenchmarkAdler32(b *testing.B) {
 	benchmarkHashAlgo(b, adler32.New())
+}
+
+func BenchmarkBCryptCost4(b *testing.B) {
+	benchmarkBCryptHashAlgo(b, 4)
+}
+
+func BenchmarkBCryptCost10(b *testing.B) {
+	benchmarkBCryptHashAlgo(b, 10)
+}
+
+func BenchmarkBCryptCost16(b *testing.B) {
+	benchmarkBCryptHashAlgo(b, 16)
+}
+
+func BenchmarkBCryptCost22(b *testing.B) {
+	benchmarkBCryptHashAlgo(b, 22)
+}
+
+func BenchmarkBCryptCost28(b *testing.B) {
+	benchmarkBCryptHashAlgo(b, 28)
+}
+
+func BenchmarkBCryptCost31(b *testing.B) {
+	benchmarkBCryptHashAlgo(b, 31)
 }
 
 func BenchmarkBlake2b256(b *testing.B) {
