@@ -179,3 +179,15 @@ func BenchmarkRIPEMD160(b *testing.B) {
 func BenchmarkWhirlpool(b *testing.B) {
 	benchmarkHashAlgo(b, whirlpool.New())
 }
+
+func BenchmarkSHA256Parallel(b *testing.B) {
+	b.RunParallel(func(pb *testing.PB) {
+		data := make([]byte, 2048)
+		rand.Read(data)
+		for pb.Next() {
+			h := sha256.New()
+			h.Write(data)
+			h.Sum(nil)
+		}
+	})
+}
