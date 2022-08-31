@@ -27,7 +27,7 @@ import (
 )
 
 func benchmarkHashAlgo(b *testing.B, h hash.Hash) {
-	data := make([]byte, 10)
+	data := make([]byte, 2048)
 	rand.Read(data)
 
 	b.ResetTimer()
@@ -39,7 +39,7 @@ func benchmarkHashAlgo(b *testing.B, h hash.Hash) {
 }
 
 func benchmarkBCryptHashAlgo(b *testing.B, cost int) {
-	data := make([]byte, 10)
+	data := make([]byte, 2048)
 	rand.Read(data)
 
 	b.ResetTimer()
@@ -64,6 +64,7 @@ func BenchmarkBCryptCost16(b *testing.B) {
 	benchmarkBCryptHashAlgo(b, 16)
 }
 
+/*
 func BenchmarkBCryptCost22(b *testing.B) {
 	benchmarkBCryptHashAlgo(b, 22)
 }
@@ -75,6 +76,7 @@ func BenchmarkBCryptCost28(b *testing.B) {
 func BenchmarkBCryptCost31(b *testing.B) {
 	benchmarkBCryptHashAlgo(b, 31)
 }
+*/
 
 func BenchmarkBlake2b256(b *testing.B) {
 	h, err := blake2b.New256(nil)
