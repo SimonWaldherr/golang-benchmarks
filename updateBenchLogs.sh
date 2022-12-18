@@ -44,10 +44,10 @@ If you\'re interested in new programming languages, you should definitely take a
 
 EOM
 
-go fmt ./...
+go1.20rc1 fmt ./...
 
 echo -n "Golang Version: "  >> README.md
-go version                  >> README.md
+go1.20rc1 version                  >> README.md
 echo ""                     >> README.md
 
 for i in "${benchs[@]}"
@@ -61,8 +61,8 @@ do
     echo "\`\`\`"                       >> ../README.md
     echo                                >> ../README.md
     echo "\`\`\`"                       >> ../README.md
-    echo "$ go test -bench . -benchmem" >> ../README.md
-    go test -bench . -benchmem          >> ../README.md
+    echo "$ go1.20rc1 test -bench . -benchmem" >> ../README.md
+    go1.20rc1 test -bench . -benchmem          >> ../README.md
     echo "\`\`\`"                       >> ../README.md
     echo                                >> ../README.md
     cd ..
