@@ -69,3 +69,29 @@ func BenchmarkMapIntKeys(b *testing.B) {
 		}
 	}
 }
+
+func BenchmarkMapStringIndex(b *testing.B) {
+	i := 0
+
+	for n := 0; n < b.N; n++ {
+		_ = ms[ks[i]]
+
+		i++
+		if i >= NumItems {
+			i = 0
+		}
+	}
+}
+
+func BenchmarkMapIntIndex(b *testing.B) {
+	i := 0
+
+	for n := 0; n < b.N; n++ {
+		_ = mi[ki[i]]
+
+		i++
+		if i >= NumItems {
+			i = 0
+		}
+	}
+}

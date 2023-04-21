@@ -35,6 +35,15 @@ func BenchmarkCryptoRandString(b *testing.B) {
 	}
 }
 
+func BenchmarkCryptoRandBytes(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		_, err := GenerateRandomBytes(32)
+		if err != nil {
+			panic(err)
+		}
+	}
+}
+
 func GenerateRandomBytes(n int) ([]byte, error) {
 	b := make([]byte, n)
 	_, err := mrand.Read(b)
