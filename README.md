@@ -43,7 +43,7 @@ If you\'re interested in new programming languages, you should definitely take a
 
 ## Benchmark Results
 
-Golang Version: [go version go1.21.3 darwin/arm64](https://tip.golang.org/doc/go1.21)  
+Golang Version: [go version go1.21.5 darwin/arm64](https://tip.golang.org/doc/go1.21)  
 Hardware Spec: [Apple MacBook Pro 16-Inch M2 Max 2023](https://support.apple.com/kb/SP890) [(?)](https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-m2-max-12-core-cpu-30-core-gpu-16-2023-specs.html) [(buy)](https://amzn.to/3K80lP4)  
 
 ### base64
@@ -95,10 +95,10 @@ func BenchmarkBase64regex(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: arm64
-BenchmarkBase64decode-12    	20140136	        57.33 ns/op	      32 B/op	       2 allocs/op
-BenchmarkBase64regex-12     	  129114	      9324 ns/op	   21500 B/op	     198 allocs/op
+BenchmarkBase64decode-12    	20840026	        56.71 ns/op	      32 B/op	       2 allocs/op
+BenchmarkBase64regex-12     	  127686	      9420 ns/op	   21502 B/op	     198 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/base64	3.630s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/base64	3.625s
 ```
 
 ### between
@@ -190,12 +190,12 @@ func BenchmarkFulltextParse(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: arm64
-BenchmarkNumberRegEx-12      	  178693	      6817 ns/op	   16209 B/op	     142 allocs/op
-BenchmarkFulltextRegEx-12    	  208675	      5440 ns/op	   11686 B/op	     104 allocs/op
-BenchmarkNumberParse-12      	33615994	        35.71 ns/op	       0 B/op	       0 allocs/op
-BenchmarkFulltextParse-12    	 2532831	       485.5 ns/op	      32 B/op	       2 allocs/op
+BenchmarkNumberRegEx-12      	  175806	      6500 ns/op	   16217 B/op	     142 allocs/op
+BenchmarkFulltextRegEx-12    	  224685	      5422 ns/op	   11684 B/op	     104 allocs/op
+BenchmarkNumberParse-12      	33828783	        36.60 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFulltextParse-12    	 2517451	       482.9 ns/op	      32 B/op	       2 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/between	6.593s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/between	6.611s
 ```
 
 ### caseinsensitivecompare
@@ -237,11 +237,11 @@ func BenchmarkToLower(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: arm64
-BenchmarkEqualFold-12    	81217236	        14.14 ns/op	       0 B/op	       0 allocs/op
-BenchmarkToUpper-12      	11396989	       104.2 ns/op	      16 B/op	       3 allocs/op
-BenchmarkToLower-12      	 8967961	       136.4 ns/op	      20 B/op	       5 allocs/op
+BenchmarkEqualFold-12    	82331166	        13.98 ns/op	       0 B/op	       0 allocs/op
+BenchmarkToUpper-12      	10878864	       107.8 ns/op	      16 B/op	       3 allocs/op
+BenchmarkToLower-12      	 8704466	       139.8 ns/op	      20 B/op	       5 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/caseinsensitivecompare	4.839s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/caseinsensitivecompare	4.719s
 ```
 
 ### concat
@@ -287,11 +287,11 @@ func BenchmarkConcatBuilder(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: arm64
-BenchmarkConcatString-12     	 1000000	     30499 ns/op	  503994 B/op	       1 allocs/op
-BenchmarkConcatBuffer-12     	310645966	         3.993 ns/op	       3 B/op	       0 allocs/op
-BenchmarkConcatBuilder-12    	544508565	         2.469 ns/op	       5 B/op	       0 allocs/op
+BenchmarkConcatString-12     	 1000000	     32765 ns/op	  503994 B/op	       1 allocs/op
+BenchmarkConcatBuffer-12     	320170188	         3.851 ns/op	       3 B/op	       0 allocs/op
+BenchmarkConcatBuilder-12    	573719577	         2.311 ns/op	       5 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/concat	33.888s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/concat	36.104s
 ```
 
 ### contains
@@ -441,16 +441,16 @@ func BenchmarkMatchNot(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: arm64
-BenchmarkContains-12            	198037815	         6.008 ns/op	       0 B/op	       0 allocs/op
-BenchmarkContainsNot-12         	100000000	        10.27 ns/op	       0 B/op	       0 allocs/op
-BenchmarkContainsBytes-12       	189392007	         6.234 ns/op	       0 B/op	       0 allocs/op
-BenchmarkContainsBytesNot-12    	100000000	        10.20 ns/op	       0 B/op	       0 allocs/op
-BenchmarkCompileMatch-12        	25235133	        48.47 ns/op	       0 B/op	       0 allocs/op
-BenchmarkCompileMatchNot-12     	39759069	        29.88 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMatch-12               	 1659705	       709.1 ns/op	    1398 B/op	      17 allocs/op
-BenchmarkMatchNot-12            	 1769216	       683.1 ns/op	    1397 B/op	      17 allocs/op
+BenchmarkContains-12            	248208566	         4.871 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsNot-12         	197121086	         5.910 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsBytes-12       	240872742	         5.064 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsBytesNot-12    	195765949	         6.129 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompileMatch-12        	24799729	        48.14 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompileMatchNot-12     	52000764	        23.92 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMatch-12               	 1644446	       713.3 ns/op	    1398 B/op	      17 allocs/op
+BenchmarkMatchNot-12            	 1773174	       656.2 ns/op	    1398 B/op	      17 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/contains	12.139s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/contains	13.443s
 ```
 
 ### foreach
@@ -537,12 +537,12 @@ func BenchmarkRangeSliceKey(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: arm64
-BenchmarkForMap-12           	59073667	        19.93 ns/op	       0 B/op	       0 allocs/op
-BenchmarkRangeMap-12         	26191080	        45.82 ns/op	       0 B/op	       0 allocs/op
-BenchmarkRangeSlice-12       	462672230	         2.620 ns/op	       0 B/op	       0 allocs/op
-BenchmarkRangeSliceKey-12    	443830683	         2.708 ns/op	       0 B/op	       0 allocs/op
+BenchmarkForMap-12           	60287694	        19.62 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRangeMap-12         	25264066	        46.11 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRangeSlice-12       	465727620	         2.631 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRangeSliceKey-12    	461361679	         2.682 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/foreach	6.438s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/foreach	6.319s
 ```
 
 ### hash
@@ -749,37 +749,37 @@ func BenchmarkSHA256Parallel(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: arm64
-BenchmarkAdler32-12           	 1777747	       661.1 ns/op	       8 B/op	       1 allocs/op
-BenchmarkBCryptCost4-12       	619322872	         1.965 ns/op	       0 B/op	       0 allocs/op
-BenchmarkBCryptCost10-12      	597774038	         2.009 ns/op	       0 B/op	       0 allocs/op
-BenchmarkBCryptCost16-12      	603385117	         1.942 ns/op	       0 B/op	       0 allocs/op
-BenchmarkBlake2b256-12        	  473156	      2529 ns/op	      32 B/op	       1 allocs/op
-BenchmarkBlake2b512-12        	  475653	      2575 ns/op	      64 B/op	       1 allocs/op
-BenchmarkBlake3256-12         	  404091	      2983 ns/op	      64 B/op	       2 allocs/op
-BenchmarkMMH3-12              	 3586161	       326.6 ns/op	      16 B/op	       1 allocs/op
-BenchmarkCRC32-12             	 5076469	       236.1 ns/op	       8 B/op	       1 allocs/op
-BenchmarkCRC64ISO-12          	  981260	      1253 ns/op	       8 B/op	       1 allocs/op
-BenchmarkCRC64ECMA-12         	  950695	      1265 ns/op	       8 B/op	       1 allocs/op
-BenchmarkFnv32-12             	  491764	      2340 ns/op	       8 B/op	       1 allocs/op
-BenchmarkFnv32a-12            	  514635	      2327 ns/op	       8 B/op	       1 allocs/op
-BenchmarkFnv64-12             	  515085	      2373 ns/op	       8 B/op	       1 allocs/op
-BenchmarkFnv64a-12            	  492265	      2435 ns/op	       8 B/op	       1 allocs/op
-BenchmarkFnv128-12            	  299892	      3891 ns/op	      16 B/op	       1 allocs/op
-BenchmarkFnv128a-12           	  478249	      2489 ns/op	      16 B/op	       1 allocs/op
-BenchmarkMD4-12               	  416311	      2909 ns/op	      24 B/op	       2 allocs/op
-BenchmarkMD5-12               	  401024	      3068 ns/op	      16 B/op	       1 allocs/op
-BenchmarkSHA1-12              	 1403372	       825.7 ns/op	      24 B/op	       1 allocs/op
-BenchmarkSHA224-12            	 1453176	       836.6 ns/op	      32 B/op	       1 allocs/op
-BenchmarkSHA256-12            	 1389282	       853.9 ns/op	      32 B/op	       1 allocs/op
-BenchmarkSHA384-12            	  837554	      1432 ns/op	      48 B/op	       1 allocs/op
-BenchmarkSHA512-12            	  838664	      1431 ns/op	      64 B/op	       1 allocs/op
-BenchmarkSHA3256-12           	  229356	      5387 ns/op	     512 B/op	       3 allocs/op
-BenchmarkSHA3512-12           	  125749	      9434 ns/op	     576 B/op	       3 allocs/op
-BenchmarkRIPEMD160-12         	  199862	      5976 ns/op	      24 B/op	       1 allocs/op
-BenchmarkWhirlpool-12         	   45343	     26511 ns/op	      64 B/op	       1 allocs/op
-BenchmarkSHA256Parallel-12    	13320831	        93.35 ns/op	      32 B/op	       1 allocs/op
+BenchmarkAdler32-12           	 1785740	       650.7 ns/op	       8 B/op	       1 allocs/op
+BenchmarkBCryptCost4-12       	635139488	         1.921 ns/op	       0 B/op	       0 allocs/op
+BenchmarkBCryptCost10-12      	639310113	         1.957 ns/op	       0 B/op	       0 allocs/op
+BenchmarkBCryptCost16-12      	606271753	         1.950 ns/op	       0 B/op	       0 allocs/op
+BenchmarkBlake2b256-12        	  478315	      2491 ns/op	      32 B/op	       1 allocs/op
+BenchmarkBlake2b512-12        	  485422	      2459 ns/op	      64 B/op	       1 allocs/op
+BenchmarkBlake3256-12         	  422632	      2936 ns/op	      64 B/op	       2 allocs/op
+BenchmarkMMH3-12              	 3611425	       327.5 ns/op	      16 B/op	       1 allocs/op
+BenchmarkCRC32-12             	 5082070	       235.6 ns/op	       8 B/op	       1 allocs/op
+BenchmarkCRC64ISO-12          	  983139	      1207 ns/op	       8 B/op	       1 allocs/op
+BenchmarkCRC64ECMA-12         	  990122	      1260 ns/op	       8 B/op	       1 allocs/op
+BenchmarkFnv32-12             	  496581	      2396 ns/op	       8 B/op	       1 allocs/op
+BenchmarkFnv32a-12            	  514605	      2317 ns/op	       8 B/op	       1 allocs/op
+BenchmarkFnv64-12             	  516794	      2316 ns/op	       8 B/op	       1 allocs/op
+BenchmarkFnv64a-12            	  516573	      2380 ns/op	       8 B/op	       1 allocs/op
+BenchmarkFnv128-12            	  300181	      3984 ns/op	      16 B/op	       1 allocs/op
+BenchmarkFnv128a-12           	  483355	      2423 ns/op	      16 B/op	       1 allocs/op
+BenchmarkMD4-12               	  426765	      2836 ns/op	      24 B/op	       2 allocs/op
+BenchmarkMD5-12               	  397560	      3004 ns/op	      16 B/op	       1 allocs/op
+BenchmarkSHA1-12              	 1390654	       869.6 ns/op	      24 B/op	       1 allocs/op
+BenchmarkSHA224-12            	 1396154	       842.3 ns/op	      32 B/op	       1 allocs/op
+BenchmarkSHA256-12            	 1426485	       856.9 ns/op	      32 B/op	       1 allocs/op
+BenchmarkSHA384-12            	  804523	      1486 ns/op	      48 B/op	       1 allocs/op
+BenchmarkSHA512-12            	  773077	      1436 ns/op	      64 B/op	       1 allocs/op
+BenchmarkSHA3256-12           	  238112	      5145 ns/op	     480 B/op	       2 allocs/op
+BenchmarkSHA3512-12           	  135817	      9078 ns/op	     512 B/op	       2 allocs/op
+BenchmarkRIPEMD160-12         	  197322	      6144 ns/op	      24 B/op	       1 allocs/op
+BenchmarkWhirlpool-12         	   46051	     26439 ns/op	      64 B/op	       1 allocs/op
+BenchmarkSHA256Parallel-12    	13431037	        91.24 ns/op	      32 B/op	       1 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/hash	40.315s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/hash	40.383s
 ```
 
 ### index
@@ -888,12 +888,12 @@ func BenchmarkMapIntIndex(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: arm64
-BenchmarkMapStringKeys-12     	25086579	        46.78 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMapIntKeys-12        	41083227	        26.60 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMapStringIndex-12    	18865279	        62.55 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMapIntIndex-12       	43326114	        25.20 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMapStringKeys-12     	18892195	        63.28 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMapIntKeys-12        	42557409	        26.74 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMapStringIndex-12    	24523098	        45.95 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMapIntIndex-12       	31626038	        34.92 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/index	7.552s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/index	6.628s
 ```
 
 ### json
@@ -984,10 +984,10 @@ func BenchmarkJsonUnmarshal(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: arm64
-BenchmarkJsonMarshal-12      	 1731160	       699.9 ns/op	     480 B/op	       5 allocs/op
-BenchmarkJsonUnmarshal-12    	  315576	      3787 ns/op	    1912 B/op	      34 allocs/op
+BenchmarkJsonMarshal-12      	 1663761	       675.8 ns/op	     480 B/op	       5 allocs/op
+BenchmarkJsonUnmarshal-12    	  332768	      3573 ns/op	    1912 B/op	      34 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/json	3.297s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/json	3.239s
 ```
 
 ### math
@@ -1070,16 +1070,16 @@ func BenchmarkMathFloat64(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: arm64
-BenchmarkMathInt8-12           	1000000000	         0.2954 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathInt32-12          	1000000000	         0.2886 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathInt64-12          	1000000000	         0.2881 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathAtomicInt32-12    	307675279	         3.904 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathAtomicInt64-12    	296024270	         4.077 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathMutexInt-12       	149814168	         7.772 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathFloat32-12        	1000000000	         0.2879 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathFloat64-12        	1000000000	         0.2881 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathInt8-12           	1000000000	         0.3045 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathInt32-12          	1000000000	         0.2995 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathInt64-12          	1000000000	         0.2949 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathAtomicInt32-12    	293421100	         4.142 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathAtomicInt64-12    	290238902	         4.062 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathMutexInt-12       	155652537	         7.998 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathFloat32-12        	1000000000	         0.2918 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathFloat64-12        	1000000000	         0.2913 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/math	6.945s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/math	7.033s
 ```
 
 ### parse
@@ -1125,11 +1125,11 @@ func BenchmarkParseFloat(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: arm64
-BenchmarkParseBool-12     	1000000000	         0.2954 ns/op	       0 B/op	       0 allocs/op
-BenchmarkParseInt-12      	120146542	        10.03 ns/op	       0 B/op	       0 allocs/op
-BenchmarkParseFloat-12    	20124787	        58.64 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseBool-12     	1000000000	         0.2967 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseInt-12      	122791490	         9.474 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseFloat-12    	20593035	        58.77 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/parse	3.943s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/parse	3.914s
 ```
 
 ### random
@@ -1201,12 +1201,12 @@ func GenerateRandomString(s int) (string, error) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: arm64
-BenchmarkMathRand-12            	261002004	         4.467 ns/op	       0 B/op	       0 allocs/op
-BenchmarkCryptoRand-12          	 3391574	       352.9 ns/op	      48 B/op	       3 allocs/op
-BenchmarkCryptoRandString-12    	11683560	        99.85 ns/op	     128 B/op	       3 allocs/op
-BenchmarkCryptoRandBytes-12     	24723300	        48.45 ns/op	      32 B/op	       1 allocs/op
+BenchmarkMathRand-12            	257354553	         4.502 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCryptoRand-12          	 3245437	       349.0 ns/op	      48 B/op	       3 allocs/op
+BenchmarkCryptoRandString-12    	12461068	        96.32 ns/op	     128 B/op	       3 allocs/op
+BenchmarkCryptoRandBytes-12     	24781057	        47.60 ns/op	      32 B/op	       1 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/random	5.855s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/random	5.824s
 ```
 
 ### regexp
@@ -1260,10 +1260,10 @@ func BenchmarkMatchStringGolibs(b *testing.B) {
 $ go test -bench . -benchmem
 goos: darwin
 goarch: arm64
-BenchmarkMatchString-12            	  292045	      4272 ns/op	   10009 B/op	      86 allocs/op
-BenchmarkMatchStringCompiled-12    	 3656646	       318.5 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMatchStringGolibs-12      	 3770820	       318.7 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMatchString-12            	  283754	      3970 ns/op	   10009 B/op	      86 allocs/op
+BenchmarkMatchStringCompiled-12    	 3820686	       316.7 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMatchStringGolibs-12      	 3689631	       319.2 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	_/Users/simonwaldherr/git/golang-benchmarks/regexp	5.399s
+ok  	_/Users/simonwaldherr/git/golang-benchmarks/regexp	5.219s
 ```
 
