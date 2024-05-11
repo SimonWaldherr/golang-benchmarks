@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -a benchs=(base64 between caseinsensitivecompare concat contains foreach hash index json math parse random regexp)
+declare -a benchs=(base64 between caseinsensitivecompare concat contains foreach hash index json math parse random regexp template)
 
 cat > README.md <<- EOM
 # Go Benchmarks
