@@ -136,3 +136,39 @@ func BenchmarkMatchNot(b *testing.B) {
 		matchNot()
 	}
 }
+
+// BenchmarkContainsMethods benchmarks different methods to check substring presence.
+func BenchmarkContainsMethods(b *testing.B) {
+	b.Run("Strings.Contains", func(b *testing.B) {
+		str := "Lorem Ipsum"
+		substr := "em Ip"
+		for n := 0; n < b.N; n++ {
+			_ = strings.Contains(str, substr)
+			_ = strings.Contains(str, "Dolor")
+		}
+	})
+
+	b.Run("Bytes.Contains", func(b *testing.B) {
+		str := []byte("Lorem Ipsum")
+		substr := []byte("em Ip")
+		for n := 0; n < b.N; n++ {
+			_ = bytes.Contains(str, substr)
+			_ = bytes.Contains(str, []byte("Dolor"))
+		}
+	})
+
+	b.Run("RegexMatchString", func(b *testing.B) {
+		re := regexp.MustCompile(`em Ip`)
+		for n := 0; n < b.N; n++ {
+			_ = re.MatchString("Lorem Ipsum")
+			_ = re.MatchString("Dolor")
+		}
+	})
+
+	b.Run("RegexMatch", func(b *testing.B) {
+		for n := 0; n < b.N; n++ {
+			_, _ = regexp.MatchString(`em Ip`, "Lorem Ipsum")
+			_, _ = regexp.MatchString(`em Ip`, "Dolor")
+		}
+	})
+}
