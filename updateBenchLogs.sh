@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -a benchs=(base64 between caseinsensitivecompare concat contains embed floodfill foreach hash index json math parse random regexp template trim)
+declare -a benchs=(base64 between caseinsensitivecompare concat contains concurrency_counter embed floodfill foreach hash index json math parse random regexp template trim)
 
 cat > README.md <<- EOM
 # Go Benchmarks
@@ -52,7 +52,12 @@ echo ""                     >> README.md
 
 for i in "${benchs[@]}"
 do
-    cd $i
+    cd "$i"
+    # skip packages without test files
+    if ! ls *_test.go >/dev/null 2>&1; then
+        cd ..
+        continue
+    fi
     gofmt -s -w -l -e .
     echo "### $i"                       >> ../README.md
     echo                                >> ../README.md
