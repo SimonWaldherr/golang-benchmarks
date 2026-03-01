@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -a benchs=(base64 between caseinsensitivecompare concat contains concurrency_counter embed floodfill foreach hash index json math parse random regexp template trim)
+declare -a benchs=(base64 between caseinsensitivecompare concat contains concurrency_counter embed floodfill foreach hash index json math parse random regexp sql template trim)
 
 cat > README.md <<- EOM
 # Go Benchmarks
@@ -70,5 +70,25 @@ do
     go test -bench . -benchmem          >> ../README.md
     echo "\`\`\`"                       >> ../README.md
     echo                                >> ../README.md
+
+    # If package is sql, also attempt tinysql-tagged benchmarks (optional)
+    if [ "$i" = "sql" ]; then
+        echo "### sql (tinysql)"         >> ../README.md
+        echo                                >> ../README.md
+        echo "\`\`\`go"                     >> ../README.md
+        cat *_test.go                       >> ../README.md
+        echo "\`\`\`"                       >> ../README.md
+        echo                                >> ../README.md
+        echo "\`\`\`"                       >> ../README.md
+        echo "$ go test -bench . -benchmem -tags tinysql" >> ../README.md
+        if go test -bench . -benchmem -tags tinysql >> ../README.md 2>&1; then
+            :
+        else
+            echo "(tinysql benchmarks skipped or failed)" >> ../README.md
+        fi
+        echo "\`\`\`"                       >> ../README.md
+        echo                                >> ../README.md
+    fi
+
     cd ..
 done
