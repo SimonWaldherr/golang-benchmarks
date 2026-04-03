@@ -11,15 +11,12 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up Go
-      uses: actions/setup-go@v3
+      uses: actions/setup-go@v5
       with:
-        go-version: 1.18
-      
-    - name: get dependencies 
-      run: go get -t github.com/SimonWaldherr/golang-benchmarks/...
+        go-version-file: go.mod
         
     - name: Run tests
-      run: go test -bench -benchmem ./...
+      run: go test -bench=. -benchmem ./...
