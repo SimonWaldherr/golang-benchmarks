@@ -11,47 +11,102 @@ import (
 	"testing"
 )
 
+const concatParts = 64
+
+var concatResult string
+
 func BenchmarkConcatString(b *testing.B) {
-	var str string
+	b.ReportAllocs()
+
 	for n := 0; n < b.N; n++ {
-		str += "x"
+		var str string
+		for i := 0; i < concatParts; i++ {
+			str += "x"
+		}
+		concatResult = str
 	}
 }
 
 func BenchmarkConcatBuffer(b *testing.B) {
-	var buffer bytes.Buffer
-	for n := 0; n < b.N; n++ {
-		buffer.WriteString("x")
+	b.ReportAllocs()
 
+	for n := 0; n < b.N; n++ {
+		var buffer bytes.Buffer
+		for i := 0; i < concatParts; i++ {
+			buffer.WriteString("x")
+		}
+		concatResult = buffer.String()
 	}
 }
 
 func BenchmarkConcatBuilder(b *testing.B) {
-	var builder strings.Builder
+	b.ReportAllocs()
+
 	for n := 0; n < b.N; n++ {
-		builder.WriteString("x")
+		var builder strings.Builder
+		for i := 0; i < concatParts; i++ {
+			builder.WriteString("x")
+		}
+		concatResult = builder.String()
+	}
+}
+
+func BenchmarkConcatBuilderGrow(b *testing.B) {
+	b.ReportAllocs()
+
+	for n := 0; n < b.N; n++ {
+		var builder strings.Builder
+		builder.Grow(concatParts)
+		for i := 0; i < concatParts; i++ {
+			builder.WriteString("x")
+		}
+		concatResult = builder.String()
 	}
 }
 
 func BenchmarkConcat(b *testing.B) {
 	b.Run("String", func(b *testing.B) {
-		var str string
+		b.ReportAllocs()
 		for n := 0; n < b.N; n++ {
-			str += "x"
+			var str string
+			for i := 0; i < concatParts; i++ {
+				str += "x"
+			}
+			concatResult = str
 		}
 	})
 
 	b.Run("Buffer", func(b *testing.B) {
-		var buffer bytes.Buffer
+		b.ReportAllocs()
 		for n := 0; n < b.N; n++ {
-			buffer.WriteString("x")
+			var buffer bytes.Buffer
+			for i := 0; i < concatParts; i++ {
+				buffer.WriteString("x")
+			}
+			concatResult = buffer.String()
 		}
 	})
 
 	b.Run("Builder", func(b *testing.B) {
-		var builder strings.Builder
+		b.ReportAllocs()
 		for n := 0; n < b.N; n++ {
-			builder.WriteString("x")
+			var builder strings.Builder
+			for i := 0; i < concatParts; i++ {
+				builder.WriteString("x")
+			}
+			concatResult = builder.String()
+		}
+	})
+
+	b.Run("BuilderGrow", func(b *testing.B) {
+		b.ReportAllocs()
+		for n := 0; n < b.N; n++ {
+			var builder strings.Builder
+			builder.Grow(concatParts)
+			for i := 0; i < concatParts; i++ {
+				builder.WriteString("x")
+			}
+			concatResult = builder.String()
 		}
 	})
 }

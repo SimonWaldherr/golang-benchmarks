@@ -49,7 +49,7 @@ If you\'re interested in new programming languages, you should definitely take a
 
 ## Benchmark Results
 
-Golang Version: [go version go1.26.1 darwin/arm64](https://tip.golang.org/doc/go1.26)  
+Golang Version: [go version go1.26.2 darwin/arm64](https://tip.golang.org/doc/go1.26)  
 Hardware Spec: [Apple MacBook Pro 16-Inch M2 Max 2023](https://support.apple.com/kb/SP890) [(?)](https://everymac.com/systems/apple/macbook_pro/specs/macbook-pro-m2-max-12-core-cpu-30-core-gpu-16-2023-specs.html) [(buy)](https://amzn.to/3K80lP4)  
 
 ### base64
@@ -103,10 +103,10 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/base64
 cpu: Apple M2 Max
-BenchmarkBase64decode-12    	21951704	        52.95 ns/op	      32 B/op	       2 allocs/op
-BenchmarkBase64regex-12     	  135234	      9103 ns/op	   21881 B/op	     198 allocs/op
+BenchmarkBase64decode-12    	22126984	        53.87 ns/op	      32 B/op	       2 allocs/op
+BenchmarkBase64regex-12     	  127070	      9335 ns/op	   21887 B/op	     198 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/base64	2.854s
+ok  	github.com/SimonWaldherr/golang-benchmarks/base64	3.783s
 ```
 
 ### between
@@ -200,45 +200,50 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/between
 cpu: Apple M2 Max
-BenchmarkNumberRegEx-12      	  192439	      6303 ns/op	   16854 B/op	     142 allocs/op
-BenchmarkFulltextRegEx-12    	  233272	      5120 ns/op	   12074 B/op	     104 allocs/op
-BenchmarkNumberParse-12      	31771070	        37.93 ns/op	       0 B/op	       0 allocs/op
-BenchmarkFulltextParse-12    	 2462478	       486.3 ns/op	      32 B/op	       2 allocs/op
+BenchmarkNumberRegEx-12      	  166154	      6475 ns/op	   16850 B/op	     142 allocs/op
+BenchmarkFulltextRegEx-12    	  215836	      5202 ns/op	   12072 B/op	     104 allocs/op
+BenchmarkNumberParse-12      	31613541	        37.93 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFulltextParse-12    	 2502544	       484.3 ns/op	      32 B/op	       2 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/between	6.744s
+ok  	github.com/SimonWaldherr/golang-benchmarks/between	5.488s
 ```
 
 ### caseinsensitivecompare
 
 ```go
-package trim
+package caseinsensitivecompare
 
 import (
 	"strings"
 	"testing"
 )
 
+var caseInsensitiveCompareResult bool
+
 func BenchmarkEqualFold(b *testing.B) {
+	b.ReportAllocs()
 	for n := 0; n < b.N; n++ {
-		_ = strings.EqualFold("abc", "ABC")
-		_ = strings.EqualFold("ABC", "ABC")
-		_ = strings.EqualFold("1aBcD", "1AbCd")
+		caseInsensitiveCompareResult = strings.EqualFold("abc", "ABC")
+		caseInsensitiveCompareResult = strings.EqualFold("ABC", "ABC")
+		caseInsensitiveCompareResult = strings.EqualFold("1aBcD", "1AbCd")
 	}
 }
 
 func BenchmarkToUpper(b *testing.B) {
+	b.ReportAllocs()
 	for n := 0; n < b.N; n++ {
-		_ = strings.ToUpper("abc") == strings.ToUpper("ABC")
-		_ = strings.ToUpper("ABC") == strings.ToUpper("ABC")
-		_ = strings.ToUpper("1aBcD") == strings.ToUpper("1AbCd")
+		caseInsensitiveCompareResult = strings.ToUpper("abc") == strings.ToUpper("ABC")
+		caseInsensitiveCompareResult = strings.ToUpper("ABC") == strings.ToUpper("ABC")
+		caseInsensitiveCompareResult = strings.ToUpper("1aBcD") == strings.ToUpper("1AbCd")
 	}
 }
 
 func BenchmarkToLower(b *testing.B) {
+	b.ReportAllocs()
 	for n := 0; n < b.N; n++ {
-		_ = strings.ToLower("abc") == strings.ToLower("ABC")
-		_ = strings.ToLower("ABC") == strings.ToLower("ABC")
-		_ = strings.ToLower("1aBcD") == strings.ToLower("1AbCd")
+		caseInsensitiveCompareResult = strings.ToLower("abc") == strings.ToLower("ABC")
+		caseInsensitiveCompareResult = strings.ToLower("ABC") == strings.ToLower("ABC")
+		caseInsensitiveCompareResult = strings.ToLower("1aBcD") == strings.ToLower("1AbCd")
 	}
 }
 ```
@@ -249,11 +254,11 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/caseinsensitivecompare
 cpu: Apple M2 Max
-BenchmarkEqualFold-12    	75650133	        15.94 ns/op	       0 B/op	       0 allocs/op
-BenchmarkToUpper-12      	11062838	       120.4 ns/op	      24 B/op	       3 allocs/op
-BenchmarkToLower-12      	 8636101	       138.6 ns/op	      40 B/op	       5 allocs/op
+BenchmarkEqualFold-12    	66977056	        16.71 ns/op	       0 B/op	       0 allocs/op
+BenchmarkToUpper-12      	10253871	       119.9 ns/op	      24 B/op	       3 allocs/op
+BenchmarkToLower-12      	 8311576	       144.2 ns/op	      40 B/op	       5 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/caseinsensitivecompare	5.218s
+ok  	github.com/SimonWaldherr/golang-benchmarks/caseinsensitivecompare	4.027s
 ```
 
 ### concat
@@ -272,47 +277,102 @@ import (
 	"testing"
 )
 
+const concatParts = 64
+
+var concatResult string
+
 func BenchmarkConcatString(b *testing.B) {
-	var str string
+	b.ReportAllocs()
+
 	for n := 0; n < b.N; n++ {
-		str += "x"
+		var str string
+		for i := 0; i < concatParts; i++ {
+			str += "x"
+		}
+		concatResult = str
 	}
 }
 
 func BenchmarkConcatBuffer(b *testing.B) {
-	var buffer bytes.Buffer
-	for n := 0; n < b.N; n++ {
-		buffer.WriteString("x")
+	b.ReportAllocs()
 
+	for n := 0; n < b.N; n++ {
+		var buffer bytes.Buffer
+		for i := 0; i < concatParts; i++ {
+			buffer.WriteString("x")
+		}
+		concatResult = buffer.String()
 	}
 }
 
 func BenchmarkConcatBuilder(b *testing.B) {
-	var builder strings.Builder
+	b.ReportAllocs()
+
 	for n := 0; n < b.N; n++ {
-		builder.WriteString("x")
+		var builder strings.Builder
+		for i := 0; i < concatParts; i++ {
+			builder.WriteString("x")
+		}
+		concatResult = builder.String()
+	}
+}
+
+func BenchmarkConcatBuilderGrow(b *testing.B) {
+	b.ReportAllocs()
+
+	for n := 0; n < b.N; n++ {
+		var builder strings.Builder
+		builder.Grow(concatParts)
+		for i := 0; i < concatParts; i++ {
+			builder.WriteString("x")
+		}
+		concatResult = builder.String()
 	}
 }
 
 func BenchmarkConcat(b *testing.B) {
 	b.Run("String", func(b *testing.B) {
-		var str string
+		b.ReportAllocs()
 		for n := 0; n < b.N; n++ {
-			str += "x"
+			var str string
+			for i := 0; i < concatParts; i++ {
+				str += "x"
+			}
+			concatResult = str
 		}
 	})
 
 	b.Run("Buffer", func(b *testing.B) {
-		var buffer bytes.Buffer
+		b.ReportAllocs()
 		for n := 0; n < b.N; n++ {
-			buffer.WriteString("x")
+			var buffer bytes.Buffer
+			for i := 0; i < concatParts; i++ {
+				buffer.WriteString("x")
+			}
+			concatResult = buffer.String()
 		}
 	})
 
 	b.Run("Builder", func(b *testing.B) {
-		var builder strings.Builder
+		b.ReportAllocs()
 		for n := 0; n < b.N; n++ {
-			builder.WriteString("x")
+			var builder strings.Builder
+			for i := 0; i < concatParts; i++ {
+				builder.WriteString("x")
+			}
+			concatResult = builder.String()
+		}
+	})
+
+	b.Run("BuilderGrow", func(b *testing.B) {
+		b.ReportAllocs()
+		for n := 0; n < b.N; n++ {
+			var builder strings.Builder
+			builder.Grow(concatParts)
+			for i := 0; i < concatParts; i++ {
+				builder.WriteString("x")
+			}
+			concatResult = builder.String()
 		}
 	})
 }
@@ -324,14 +384,16 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/concat
 cpu: Apple M2 Max
-BenchmarkConcatString-12     	 1000000	     34768 ns/op	  503993 B/op	       1 allocs/op
-BenchmarkConcatBuffer-12     	336268756	         3.775 ns/op	       3 B/op	       0 allocs/op
-BenchmarkConcatBuilder-12    	556060128	         2.415 ns/op	       5 B/op	       0 allocs/op
-BenchmarkConcat/String-12    	 1000000	     37895 ns/op	  503993 B/op	       1 allocs/op
-BenchmarkConcat/Buffer-12    	331173880	         3.660 ns/op	       3 B/op	       0 allocs/op
-BenchmarkConcat/Builder-12   	552309669	         2.486 ns/op	       5 B/op	       0 allocs/op
+BenchmarkConcatString-12         	  849830	      1357 ns/op	    2400 B/op	      63 allocs/op
+BenchmarkConcatBuffer-12         	 4819561	       252.1 ns/op	     128 B/op	       2 allocs/op
+BenchmarkConcatBuilder-12        	 7375850	       162.5 ns/op	     120 B/op	       4 allocs/op
+BenchmarkConcatBuilderGrow-12    	 9110570	       129.7 ns/op	      64 B/op	       1 allocs/op
+BenchmarkConcat/String-12        	  883183	      1350 ns/op	    2400 B/op	      63 allocs/op
+BenchmarkConcat/Buffer-12        	 4850577	       270.8 ns/op	     128 B/op	       2 allocs/op
+BenchmarkConcat/Builder-12       	 7153880	       171.8 ns/op	     120 B/op	       4 allocs/op
+BenchmarkConcat/BuilderGrow-12   	 8977294	       133.5 ns/op	      64 B/op	       1 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/concat	79.477s
+ok  	github.com/SimonWaldherr/golang-benchmarks/concat	11.011s
 ```
 
 ### contains
@@ -519,20 +581,20 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/contains
 cpu: Apple M2 Max
-BenchmarkContains-12            	240552307	         4.874 ns/op	       0 B/op	       0 allocs/op
-BenchmarkContainsNot-12         	202757544	         5.839 ns/op	       0 B/op	       0 allocs/op
-BenchmarkContainsBytes-12       	212560635	         5.573 ns/op	       0 B/op	       0 allocs/op
-BenchmarkContainsBytesNot-12    	187067552	         6.397 ns/op	       0 B/op	       0 allocs/op
-BenchmarkCompileMatch-12        	25826236	        46.16 ns/op	       0 B/op	       0 allocs/op
-BenchmarkCompileMatchNot-12     	49343965	        24.08 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMatch-12               	 1636551	       716.4 ns/op	    1397 B/op	      17 allocs/op
-BenchmarkMatchNot-12            	 1745451	       671.8 ns/op	    1397 B/op	      17 allocs/op
-BenchmarkContainsMethods/Strings.Contains-12         	100000000	        10.94 ns/op	       0 B/op	       0 allocs/op
-BenchmarkContainsMethods/Bytes.Contains-12           	100000000	        11.24 ns/op	       0 B/op	       0 allocs/op
-BenchmarkContainsMethods/RegexMatchString-12         	17807973	        67.08 ns/op	       0 B/op	       0 allocs/op
-BenchmarkContainsMethods/RegexMatch-12               	  879284	      1461 ns/op	    2797 B/op	      34 allocs/op
+BenchmarkContains-12            	241628170	         4.904 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsNot-12         	209303389	         5.720 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsBytes-12       	219988339	         5.504 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsBytesNot-12    	186626149	         6.828 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompileMatch-12        	25491687	        46.25 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCompileMatchNot-12     	48798174	        25.11 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMatch-12               	 1672022	       720.1 ns/op	    1397 B/op	      17 allocs/op
+BenchmarkMatchNot-12            	 1777761	       672.1 ns/op	    1397 B/op	      17 allocs/op
+BenchmarkContainsMethods/Strings.Contains-12         	100000000	        10.66 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsMethods/Bytes.Contains-12           	100000000	        12.40 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsMethods/RegexMatchString-12         	17138757	        67.93 ns/op	       0 B/op	       0 allocs/op
+BenchmarkContainsMethods/RegexMatch-12               	  836452	      1381 ns/op	    2796 B/op	      34 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/contains	18.436s
+ok  	github.com/SimonWaldherr/golang-benchmarks/contains	19.378s
 ```
 
 ### concurrency_counter
@@ -673,17 +735,17 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/concurrency_counter
 cpu: Apple M2 Max
-BenchmarkMutexParallel-12           	 9781093	       125.7 ns/op	       0 B/op	       0 allocs/op
-BenchmarkRWMutexWriteParallel-12    	13361485	        93.07 ns/op	       0 B/op	       0 allocs/op
-BenchmarkRWMutexReadParallel-12     	 9256443	       131.4 ns/op	       0 B/op	       0 allocs/op
-BenchmarkAtomicParallel-12          	21549450	        57.97 ns/op	       0 B/op	       0 allocs/op
-BenchmarkChannelBufferedSizes/buf=0-12         	 3508197	       364.2 ns/op	       0 B/op	       0 allocs/op
-BenchmarkChannelBufferedSizes/buf=1-12         	 4864672	       290.1 ns/op	       0 B/op	       0 allocs/op
-BenchmarkChannelBufferedSizes/buf=16-12        	 6944551	       175.5 ns/op	       0 B/op	       0 allocs/op
-BenchmarkChannelBufferedSizes/buf=1024-12      	 9292114	       129.3 ns/op	       0 B/op	       0 allocs/op
-BenchmarkWorkerPool/workers=12-12              	17588236	        70.33 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMutexParallel-12           	 9550502	       120.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRWMutexWriteParallel-12    	12136197	        99.19 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRWMutexReadParallel-12     	12322478	       110.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAtomicParallel-12          	19968507	        55.61 ns/op	       0 B/op	       0 allocs/op
+BenchmarkChannelBufferedSizes/buf=0-12         	 3619378	       334.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkChannelBufferedSizes/buf=1-12         	 4133910	       291.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkChannelBufferedSizes/buf=16-12        	 6987964	       169.3 ns/op	       0 B/op	       0 allocs/op
+BenchmarkChannelBufferedSizes/buf=1024-12      	 9380547	       129.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkWorkerPool/workers=12-12              	17303614	        65.79 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/concurrency_counter	12.966s
+ok  	github.com/SimonWaldherr/golang-benchmarks/concurrency_counter	13.349s
 ```
 
 ### embed
@@ -737,11 +799,11 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/embed
 cpu: Apple M2 Max
-BenchmarkEmbed-12             	1000000000	         0.3151 ns/op	       0 B/op	       0 allocs/op
-BenchmarkReadFile-12          	  103778	     11737 ns/op	     840 B/op	       5 allocs/op
-BenchmarkIoutilReadFile-12    	  107265	     11242 ns/op	     840 B/op	       5 allocs/op
+BenchmarkEmbed-12             	1000000000	         0.3050 ns/op	       0 B/op	       0 allocs/op
+BenchmarkReadFile-12          	  108997	     11371 ns/op	     840 B/op	       5 allocs/op
+BenchmarkIoutilReadFile-12    	  108512	     11071 ns/op	     840 B/op	       5 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/embed	3.384s
+ok  	github.com/SimonWaldherr/golang-benchmarks/embed	3.204s
 ```
 
 ### floodfill
@@ -922,12 +984,12 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/floodfill
 cpu: Apple M2 Max
-BenchmarkFloodFillRecursive-12    	 5707923	       204.2 ns/op	     432 B/op	       7 allocs/op
-BenchmarkFloodFillDFS-12          	 1370949	       889.5 ns/op	    1744 B/op	      48 allocs/op
-BenchmarkFloodFillBFS-12          	 1000000	      1079 ns/op	    2704 B/op	      53 allocs/op
-BenchmarkFloodFillStack4Way-12    	 1000000	      1180 ns/op	    1744 B/op	      48 allocs/op
+BenchmarkFloodFillRecursive-12    	 5497546	       201.2 ns/op	     432 B/op	       7 allocs/op
+BenchmarkFloodFillDFS-12          	 1388280	       851.0 ns/op	    1744 B/op	      48 allocs/op
+BenchmarkFloodFillBFS-12          	 1000000	      1075 ns/op	    2704 B/op	      53 allocs/op
+BenchmarkFloodFillStack4Way-12    	 1286047	       912.8 ns/op	    1744 B/op	      48 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/floodfill	6.071s
+ok  	github.com/SimonWaldherr/golang-benchmarks/floodfill	6.834s
 ```
 
 ### foreach
@@ -1016,12 +1078,12 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/foreach
 cpu: Apple M2 Max
-BenchmarkForMap-12           	63868617	        18.70 ns/op	       0 B/op	       0 allocs/op
-BenchmarkRangeMap-12         	28136017	        42.70 ns/op	       0 B/op	       0 allocs/op
-BenchmarkRangeSlice-12       	438190692	         2.743 ns/op	       0 B/op	       0 allocs/op
-BenchmarkRangeSliceKey-12    	427862908	         2.723 ns/op	       0 B/op	       0 allocs/op
+BenchmarkForMap-12           	55885108	        19.05 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRangeMap-12         	28007853	        43.05 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRangeSlice-12       	441927368	         2.706 ns/op	       0 B/op	       0 allocs/op
+BenchmarkRangeSliceKey-12    	444138961	         2.715 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/foreach	6.493s
+ok  	github.com/SimonWaldherr/golang-benchmarks/foreach	5.492s
 ```
 
 ### hash
@@ -1230,37 +1292,37 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/hash
 cpu: Apple M2 Max
-BenchmarkAdler32-12           	 1712418	       680.7 ns/op	       8 B/op	       1 allocs/op
-BenchmarkBCryptCost4-12       	    1213	    988872 ns/op	    8167 B/op	       9 allocs/op
-BenchmarkBCryptCost10-12      	      19	  60703186 ns/op	    8257 B/op	       9 allocs/op
-BenchmarkBCryptCost16-12      	       1	3881582167 ns/op	   10184 B/op	      13 allocs/op
-BenchmarkBlake2b256-12        	  469490	      2565 ns/op	      32 B/op	       1 allocs/op
-BenchmarkBlake2b512-12        	  464908	      2577 ns/op	      64 B/op	       1 allocs/op
-BenchmarkBlake3256-12         	  409968	      2938 ns/op	      32 B/op	       1 allocs/op
-BenchmarkMMH3-12              	 3623850	       333.8 ns/op	      16 B/op	       1 allocs/op
-BenchmarkCRC32-12             	 4877803	       245.2 ns/op	       8 B/op	       1 allocs/op
-BenchmarkCRC64ISO-12          	 1000000	      1151 ns/op	       8 B/op	       1 allocs/op
-BenchmarkCRC64ECMA-12         	 1000000	      1140 ns/op	       8 B/op	       1 allocs/op
-BenchmarkFnv32-12             	  497499	      2441 ns/op	       8 B/op	       1 allocs/op
-BenchmarkFnv32a-12            	  493701	      2463 ns/op	       8 B/op	       1 allocs/op
-BenchmarkFnv64-12             	  485074	      2447 ns/op	       8 B/op	       1 allocs/op
-BenchmarkFnv64a-12            	  492064	      2466 ns/op	       8 B/op	       1 allocs/op
-BenchmarkFnv128-12            	  186345	      6472 ns/op	      24 B/op	       2 allocs/op
-BenchmarkFnv128a-12           	  160096	      7472 ns/op	      24 B/op	       2 allocs/op
-BenchmarkMD4-12               	  273144	      4466 ns/op	      16 B/op	       1 allocs/op
-BenchmarkMD5-12               	  392074	      3084 ns/op	      16 B/op	       1 allocs/op
-BenchmarkSHA1-12              	 1408326	       929.0 ns/op	      24 B/op	       1 allocs/op
-BenchmarkSHA224-12            	 1362052	       864.4 ns/op	      32 B/op	       1 allocs/op
-BenchmarkSHA256-12            	 1404703	       858.6 ns/op	      32 B/op	       1 allocs/op
-BenchmarkSHA384-12            	  786753	      1699 ns/op	      48 B/op	       1 allocs/op
-BenchmarkSHA512-12            	  782559	      1798 ns/op	      64 B/op	       1 allocs/op
-BenchmarkSHA3256-12           	  199528	      6480 ns/op	     480 B/op	       2 allocs/op
-BenchmarkSHA3512-12           	  108304	     10325 ns/op	     576 B/op	       3 allocs/op
-BenchmarkRIPEMD160-12         	  196992	      6143 ns/op	      24 B/op	       1 allocs/op
-BenchmarkWhirlpool-12         	   47967	     26342 ns/op	      64 B/op	       1 allocs/op
-BenchmarkSHA256Parallel-12    	12045289	        98.18 ns/op	      32 B/op	       1 allocs/op
+BenchmarkAdler32-12           	 1726119	       683.7 ns/op	       8 B/op	       1 allocs/op
+BenchmarkBCryptCost4-12       	    1225	    985500 ns/op	    8166 B/op	       9 allocs/op
+BenchmarkBCryptCost10-12      	      19	  60300417 ns/op	    8257 B/op	       9 allocs/op
+BenchmarkBCryptCost16-12      	       1	3922344291 ns/op	    9976 B/op	      11 allocs/op
+BenchmarkBlake2b256-12        	  451138	      2677 ns/op	      32 B/op	       1 allocs/op
+BenchmarkBlake2b512-12        	  459603	      2635 ns/op	      64 B/op	       1 allocs/op
+BenchmarkBlake3256-12         	  408350	      3005 ns/op	      32 B/op	       1 allocs/op
+BenchmarkMMH3-12              	 3655274	       331.6 ns/op	      16 B/op	       1 allocs/op
+BenchmarkCRC32-12             	 5002388	       244.1 ns/op	       8 B/op	       1 allocs/op
+BenchmarkCRC64ISO-12          	 1000000	      1162 ns/op	       8 B/op	       1 allocs/op
+BenchmarkCRC64ECMA-12         	 1000000	      1152 ns/op	       8 B/op	       1 allocs/op
+BenchmarkFnv32-12             	  491220	      2459 ns/op	       8 B/op	       1 allocs/op
+BenchmarkFnv32a-12            	  489003	      2451 ns/op	       8 B/op	       1 allocs/op
+BenchmarkFnv64-12             	  493273	      2440 ns/op	       8 B/op	       1 allocs/op
+BenchmarkFnv64a-12            	  495297	      2516 ns/op	       8 B/op	       1 allocs/op
+BenchmarkFnv128-12            	  181533	      6573 ns/op	      24 B/op	       2 allocs/op
+BenchmarkFnv128a-12           	  159890	      7530 ns/op	      24 B/op	       2 allocs/op
+BenchmarkMD4-12               	  266040	      4532 ns/op	      16 B/op	       1 allocs/op
+BenchmarkMD5-12               	  391636	      3090 ns/op	      16 B/op	       1 allocs/op
+BenchmarkSHA1-12              	 1400571	       898.2 ns/op	      24 B/op	       1 allocs/op
+BenchmarkSHA224-12            	 1221715	       868.6 ns/op	      32 B/op	       1 allocs/op
+BenchmarkSHA256-12            	 1378735	       870.7 ns/op	      32 B/op	       1 allocs/op
+BenchmarkSHA384-12            	  757268	      1531 ns/op	      48 B/op	       1 allocs/op
+BenchmarkSHA512-12            	  796516	      1514 ns/op	      64 B/op	       1 allocs/op
+BenchmarkSHA3256-12           	  208836	      5742 ns/op	     480 B/op	       2 allocs/op
+BenchmarkSHA3512-12           	  119353	     10065 ns/op	     576 B/op	       3 allocs/op
+BenchmarkRIPEMD160-12         	  189320	      6148 ns/op	      24 B/op	       1 allocs/op
+BenchmarkWhirlpool-12         	   47458	     25466 ns/op	      64 B/op	       1 allocs/op
+BenchmarkSHA256Parallel-12    	11993842	       100.0 ns/op	      32 B/op	       1 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/hash	45.023s
+ok  	github.com/SimonWaldherr/golang-benchmarks/hash	43.831s
 ```
 
 ### index
@@ -1371,12 +1433,12 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/index
 cpu: Apple M2 Max
-BenchmarkMapStringKeys-12     	20025309	        54.91 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMapIntKeys-12        	71577924	        21.90 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMapStringIndex-12    	21720832	        46.07 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMapIntIndex-12       	57375316	        19.06 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMapStringKeys-12     	25698018	        45.57 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMapIntKeys-12        	57162136	        18.33 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMapStringIndex-12    	22459677	        49.17 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMapIntIndex-12       	35164170	        29.37 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/index	6.687s
+ok  	github.com/SimonWaldherr/golang-benchmarks/index	6.343s
 ```
 
 ### json
@@ -1469,10 +1531,10 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/json
 cpu: Apple M2 Max
-BenchmarkJsonMarshal-12      	 1733791	       667.1 ns/op	     480 B/op	       5 allocs/op
-BenchmarkJsonUnmarshal-12    	  335736	      3660 ns/op	    1816 B/op	      27 allocs/op
+BenchmarkJsonMarshal-12      	 1645453	       720.8 ns/op	     480 B/op	       5 allocs/op
+BenchmarkJsonUnmarshal-12    	  314257	      3880 ns/op	    1816 B/op	      27 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/json	3.428s
+ok  	github.com/SimonWaldherr/golang-benchmarks/json	3.384s
 ```
 
 ### math
@@ -1557,16 +1619,16 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/math
 cpu: Apple M2 Max
-BenchmarkMathInt8-12           	1000000000	         0.3061 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathInt32-12          	1000000000	         0.2992 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathInt64-12          	1000000000	         0.2991 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathAtomicInt32-12    	293316776	         4.185 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathAtomicInt64-12    	297401361	         4.018 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathMutexInt-12       	149105320	         8.057 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathFloat32-12        	1000000000	         0.3027 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMathFloat64-12        	1000000000	         0.3034 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathInt8-12           	1000000000	         0.3092 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathInt32-12          	1000000000	         0.3076 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathInt64-12          	1000000000	         0.3080 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathAtomicInt32-12    	290558541	         4.220 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathAtomicInt64-12    	287433439	         4.130 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathMutexInt-12       	145752284	         8.404 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathFloat32-12        	1000000000	         0.3076 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMathFloat64-12        	1000000000	         0.3069 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/math	7.243s
+ok  	github.com/SimonWaldherr/golang-benchmarks/math	7.229s
 ```
 
 ### parse
@@ -1614,11 +1676,11 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/parse
 cpu: Apple M2 Max
-BenchmarkParseBool-12     	515177890	         2.153 ns/op	       0 B/op	       0 allocs/op
-BenchmarkParseInt-12      	100000000	        10.81 ns/op	       0 B/op	       0 allocs/op
-BenchmarkParseFloat-12    	18670394	        62.86 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseBool-12     	522835948	         2.159 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseInt-12      	100000000	        10.88 ns/op	       0 B/op	       0 allocs/op
+BenchmarkParseFloat-12    	18935383	        63.53 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/parse	4.000s
+ok  	github.com/SimonWaldherr/golang-benchmarks/parse	4.112s
 ```
 
 ### random
@@ -1632,56 +1694,105 @@ package random
 import (
 	crand "crypto/rand"
 	"encoding/base64"
+	"io"
 	"math/big"
 	mrand "math/rand"
 	"testing"
 )
 
+var (
+	randomIntResult    int64
+	randomBigIntResult *big.Int
+	randomBytesResult  []byte
+	randomStringResult string
+)
+
+type mathRandReader struct{}
+
+func (mathRandReader) Read(p []byte) (int, error) {
+	return mrand.Read(p)
+}
+
 func BenchmarkMathRand(b *testing.B) {
+	b.ReportAllocs()
 	for n := 0; n < b.N; n++ {
-		mrand.Int63n(0xFFFF)
+		randomIntResult = mrand.Int63n(0xFFFF)
 	}
 }
 
 func BenchmarkCryptoRand(b *testing.B) {
+	limit := big.NewInt(0xFFFF)
+	b.ReportAllocs()
+
 	for n := 0; n < b.N; n++ {
-		_, err := crand.Int(crand.Reader, big.NewInt(0xFFFF))
+		r, err := crand.Int(crand.Reader, limit)
 		if err != nil {
 			panic(err)
 		}
+		randomBigIntResult = r
 	}
 }
 
-func BenchmarkCryptoRandString(b *testing.B) {
+func BenchmarkMathRandBytes(b *testing.B) {
+	reader := mathRandReader{}
+	b.ReportAllocs()
+
 	for n := 0; n < b.N; n++ {
-		_, err := GenerateRandomString(32)
+		r, err := GenerateRandomBytes(reader, 32)
 		if err != nil {
 			panic(err)
 		}
+		randomBytesResult = r
 	}
 }
 
 func BenchmarkCryptoRandBytes(b *testing.B) {
+	b.ReportAllocs()
 	for n := 0; n < b.N; n++ {
-		_, err := GenerateRandomBytes(32)
+		r, err := GenerateRandomBytes(crand.Reader, 32)
 		if err != nil {
 			panic(err)
 		}
+		randomBytesResult = r
 	}
 }
 
-func GenerateRandomBytes(n int) ([]byte, error) {
-	b := make([]byte, n)
-	_, err := mrand.Read(b)
+func BenchmarkMathRandString(b *testing.B) {
+	reader := mathRandReader{}
+	b.ReportAllocs()
+
+	for n := 0; n < b.N; n++ {
+		r, err := GenerateRandomString(reader, 32)
+		if err != nil {
+			panic(err)
+		}
+		randomStringResult = r
+	}
+}
+
+func BenchmarkCryptoRandString(b *testing.B) {
+	b.ReportAllocs()
+	for n := 0; n < b.N; n++ {
+		r, err := GenerateRandomString(crand.Reader, 32)
+		if err != nil {
+			panic(err)
+		}
+		randomStringResult = r
+	}
+}
+
+func GenerateRandomBytes(r io.Reader, n int) ([]byte, error) {
+	data := make([]byte, n)
+	_, err := io.ReadFull(r, data)
 	if err != nil {
 		return nil, err
 	}
 
-	return b, nil
+	return data, nil
 }
 
-func GenerateRandomString(s int) (string, error) {
-	b, err := GenerateRandomBytes(s)
+func GenerateRandomString(r io.Reader, s int) (string, error) {
+	b, err := GenerateRandomBytes(r, s)
 	return base64.URLEncoding.EncodeToString(b), err
 }
 ```
@@ -1692,12 +1803,14 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/random
 cpu: Apple M2 Max
-BenchmarkMathRand-12            	169647757	         7.961 ns/op	       0 B/op	       0 allocs/op
-BenchmarkCryptoRand-12          	10036003	       113.9 ns/op	      48 B/op	       3 allocs/op
-BenchmarkCryptoRandString-12    	10789050	       114.9 ns/op	     128 B/op	       3 allocs/op
-BenchmarkCryptoRandBytes-12     	19753953	        61.00 ns/op	      32 B/op	       1 allocs/op
+BenchmarkMathRand-12            	170200674	         6.958 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCryptoRand-12          	10248249	       115.9 ns/op	      48 B/op	       3 allocs/op
+BenchmarkMathRandBytes-12       	18543044	        64.42 ns/op	      32 B/op	       1 allocs/op
+BenchmarkCryptoRandBytes-12     	 4600580	       261.2 ns/op	      32 B/op	       1 allocs/op
+BenchmarkMathRandString-12      	 9909012	       119.8 ns/op	     128 B/op	       3 allocs/op
+BenchmarkCryptoRandString-12    	 3888849	       311.7 ns/op	     128 B/op	       3 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/random	5.976s
+ok  	github.com/SimonWaldherr/golang-benchmarks/random	9.080s
 ```
 
 ### regexp
@@ -1753,11 +1866,11 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/regexp
 cpu: Apple M2 Max
-BenchmarkMatchString-12            	  319567	      3801 ns/op	   10204 B/op	      86 allocs/op
-BenchmarkMatchStringCompiled-12    	 3864536	       311.1 ns/op	       0 B/op	       0 allocs/op
-BenchmarkMatchStringGolibs-12      	 3755954	       319.1 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMatchString-12            	  266162	      4548 ns/op	   10214 B/op	      86 allocs/op
+BenchmarkMatchStringCompiled-12    	 3757484	       319.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMatchStringGolibs-12      	 3659856	       326.3 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/regexp	5.419s
+ok  	github.com/SimonWaldherr/golang-benchmarks/regexp	5.612s
 ```
 
 ### sql
@@ -1768,10 +1881,13 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"strings"
 	"testing"
 
 	_ "modernc.org/sqlite"
 )
+
+var sqlResultSink int64
 
 func openSQLite(dsn string) (*sql.DB, error) {
 	return sql.Open("sqlite", dsn)
@@ -1779,26 +1895,82 @@ func openSQLite(dsn string) (*sql.DB, error) {
 
 // prepareSchema creates the users and orders tables used by benchmarks.
 func prepareSchema(db *sql.DB) error {
-	if _, err := db.Exec(`CREATE TABLE users (id INT, name TEXT, email TEXT, active BOOL)`); err != nil {
+	if _, err := db.Exec(`CREATE TABLE users (id INT PRIMARY KEY, name TEXT, email TEXT, active BOOL)`); err != nil {
 		return err
 	}
-	if _, err := db.Exec(`CREATE TABLE orders (id INT, user_id INT, amount FLOAT, status TEXT, meta JSON)`); err != nil {
+	if _, err := db.Exec(`CREATE TABLE orders (id INT PRIMARY KEY, user_id INT, amount FLOAT, status TEXT, meta JSON)`); err != nil {
 		return err
 	}
 	return nil
 }
 
-func benchInsert(b *testing.B, open func(string) (*sql.DB, error), dsn string) {
+func benchmarkDB(b *testing.B, open func(string) (*sql.DB, error), dsn string) *sql.DB {
 	db, err := open(dsn)
 	if err != nil {
 		b.Fatalf("open: %v", err)
 	}
-	defer db.Close()
 
 	if err := prepareSchema(db); err != nil {
+		db.Close()
 		b.Fatalf("schema: %v", err)
 	}
+	b.Cleanup(func() {
+		if err := db.Close(); err != nil {
+			b.Fatalf("close: %v", err)
+		}
+	})
 
+	return db
+}
+
+func prepareBenchmarkStmt(b *testing.B, tx interface {
+	Prepare(string) (*sql.Stmt, error)
+}, query string) *sql.Stmt {
+	stmt, err := tx.Prepare(query)
+	if err != nil {
+		b.Fatalf("prepare: %v", err)
+	}
+	b.Cleanup(func() {
+		if err := stmt.Close(); err != nil {
+			b.Fatalf("close stmt: %v", err)
+		}
+	})
+
+	return stmt
+}
+
+func populateUsersAndOrders(b *testing.B, db *sql.DB, users, ordersPerUser int) {
+	tx, err := db.Begin()
+	if err != nil {
+		b.Fatalf("begin populate: %v", err)
+	}
+
+	ustmt := prepareBenchmarkStmt(b, tx, `INSERT INTO users (id, name, email, active) VALUES (?, ?, ?, ?)`)
+	ostmt := prepareBenchmarkStmt(b, tx, `INSERT INTO orders (id, user_id, amount, status, meta) VALUES (?, ?, ?, ?, ?)`)
+
+	for i := 1; i <= users; i++ {
+		if _, err := ustmt.Exec(i, fmt.Sprintf("user%d", i), fmt.Sprintf("u%d@example.com", i), i%3 != 0); err != nil {
+			b.Fatalf("populate user: %v", err)
+		}
+		for j := 0; j < ordersPerUser; j++ {
+			id := i*100 + j
+			status := "PAID"
+			if j%4 == 0 {
+				status = "PENDING"
+			}
+			if _, err := ostmt.Exec(id, i, float64(id)*1.5, status, `{"device":"web"}`); err != nil {
+				b.Fatalf("populate order: %v", err)
+			}
+		}
+	}
+
+	if err := tx.Commit(); err != nil {
+		b.Fatalf("commit populate: %v", err)
+	}
+}
+
+func benchInsertTxPerRow(b *testing.B, open func(string) (*sql.DB, error), dsn string) {
+	db := benchmarkDB(b, open, dsn)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		tx, err := db.Begin()
@@ -1819,72 +1991,233 @@ func benchInsert(b *testing.B, open func(string) (*sql.DB, error), dsn string) {
 	}
 }
 
-func benchSelectJoin(b *testing.B, open func(string) (*sql.DB, error), dsn string, rows int) {
-	db, err := open(dsn)
-	if err != nil {
-		b.Fatalf("open: %v", err)
-	}
-	defer db.Close()
-
-	if err := prepareSchema(db); err != nil {
-		b.Fatalf("schema: %v", err)
-	}
-
-	// populate a modest dataset
+func benchInsertPrepared(b *testing.B, open func(string) (*sql.DB, error), dsn string) {
+	db := benchmarkDB(b, open, dsn)
 	tx, err := db.Begin()
 	if err != nil {
 		b.Fatalf("begin: %v", err)
 	}
-	ustmt, _ := tx.Prepare(`INSERT INTO users (id, name, email, active) VALUES (?, ?, ?, ?)`)
-	ostmt, _ := tx.Prepare(`INSERT INTO orders (id, user_id, amount, status, meta) VALUES (?, ?, ?, ?, ?)`)
-	for i := 1; i <= rows; i++ {
-		if _, err := ustmt.Exec(i, fmt.Sprintf("user%d", i), nil, true); err != nil {
-			b.Fatalf("populate user: %v", err)
-		}
-		// attach a couple orders for each user
-		for j := 0; j < 2; j++ {
-			id := i*10 + j
-			if _, err := ostmt.Exec(id, i, float64(id)*1.5, "PAID", `{"device":"web"}`); err != nil {
-				b.Fatalf("populate order: %v", err)
-			}
-		}
-	}
-	ustmt.Close()
-	ostmt.Close()
-	if err := tx.Commit(); err != nil {
-		b.Fatalf("commit populate: %v", err)
+	stmt := prepareBenchmarkStmt(b, tx, `INSERT INTO users (id, name, email, active) VALUES (?, ?, ?, ?)`)
+
+	names := make([]string, b.N)
+	emails := make([]string, b.N)
+	for i := 0; i < b.N; i++ {
+		names[i] = fmt.Sprintf("user%d", i)
+		emails[i] = fmt.Sprintf("u%d@example.com", i)
 	}
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		rows, err := db.Query(`
-            SELECT u.name AS user, SUM(o.amount) AS total, COUNT(*) AS cnt
-            FROM users u
-            LEFT JOIN orders o ON u.id = o.user_id AND o.status = 'PAID'
-            GROUP BY u.name
-        `)
-		if err != nil {
-			b.Fatalf("query: %v", err)
+		if _, err := stmt.Exec(i, names[i], emails[i], i%2 == 0); err != nil {
+			b.Fatalf("exec: %v", err)
 		}
-		for rows.Next() {
-			var name string
-			var total float64
-			var cnt int
-			if err := rows.Scan(&name, &total, &cnt); err != nil {
-				b.Fatalf("scan: %v", err)
-			}
-		}
-		rows.Close()
+	}
+	b.StopTimer()
+
+	if err := tx.Commit(); err != nil {
+		b.Fatalf("commit: %v", err)
 	}
 }
 
+func benchSelectPoint(b *testing.B, open func(string) (*sql.DB, error), dsn string, users int) {
+	db := benchmarkDB(b, open, dsn)
+	populateUsersAndOrders(b, db, users, 2)
+	stmt := prepareBenchmarkStmt(b, db, `SELECT email, active FROM users WHERE id = ?`)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		var email string
+		var active bool
+		id := i%users + 1
+		if err := stmt.QueryRow(id).Scan(&email, &active); err != nil {
+			b.Fatalf("query row: %v", err)
+		}
+		if active {
+			sqlResultSink += int64(len(email))
+		}
+	}
+}
+
+func benchSelectRange(b *testing.B, open func(string) (*sql.DB, error), dsn string, users int) {
+	db := benchmarkDB(b, open, dsn)
+	populateUsersAndOrders(b, db, users, 2)
+	stmt := prepareBenchmarkStmt(b, db, `SELECT id, name FROM users WHERE id BETWEEN ? AND ? ORDER BY id`)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		start := i%users + 1
+		end := start + 24
+		if end > users {
+			end = users
+		}
+		rows, err := stmt.Query(start, end)
+		if err != nil {
+			b.Fatalf("query: %v", err)
+		}
+
+		var count int64
+		for rows.Next() {
+			var id int
+			var name string
+			if err := rows.Scan(&id, &name); err != nil {
+				rows.Close()
+				b.Fatalf("scan: %v", err)
+			}
+			count += int64(id + len(name))
+		}
+		if err := rows.Err(); err != nil {
+			rows.Close()
+			b.Fatalf("rows: %v", err)
+		}
+		if err := rows.Close(); err != nil {
+			b.Fatalf("close rows: %v", err)
+		}
+		sqlResultSink += count
+	}
+}
+
+func benchUpdatePrepared(b *testing.B, open func(string) (*sql.DB, error), dsn string, users int) {
+	db := benchmarkDB(b, open, dsn)
+	populateUsersAndOrders(b, db, users, 1)
+	stmt := prepareBenchmarkStmt(b, db, `UPDATE users SET active = ? WHERE id = ?`)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		id := i%users + 1
+		result, err := stmt.Exec(i%2 == 0, id)
+		if err != nil {
+			b.Fatalf("exec update: %v", err)
+		}
+		affected, err := result.RowsAffected()
+		if err == nil {
+			sqlResultSink += affected
+		}
+	}
+}
+
+func benchSelectJoin(b *testing.B, open func(string) (*sql.DB, error), dsn string, rows int) {
+	db := benchmarkDB(b, open, dsn)
+	populateUsersAndOrders(b, db, rows, 2)
+
+	query := strings.TrimSpace(`
+		SELECT u.name AS user, SUM(o.amount) AS total, COUNT(o.id) AS cnt
+		FROM users u
+		LEFT JOIN orders o ON u.id = o.user_id AND o.status = 'PAID'
+		GROUP BY u.name
+		ORDER BY u.name
+	`)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		rows, err := db.Query(query)
+		if err != nil {
+			b.Fatalf("query: %v", err)
+		}
+
+		var totalCount int64
+		for rows.Next() {
+			var name string
+			var total sql.NullFloat64
+			var cnt int
+			if err := rows.Scan(&name, &total, &cnt); err != nil {
+				rows.Close()
+				b.Fatalf("scan: %v", err)
+			}
+			totalCount += int64(len(name) + cnt)
+			if total.Valid {
+				totalCount += int64(total.Float64)
+			}
+		}
+		if err := rows.Err(); err != nil {
+			rows.Close()
+			b.Fatalf("rows: %v", err)
+		}
+		if err := rows.Close(); err != nil {
+			b.Fatalf("close rows: %v", err)
+		}
+		sqlResultSink += totalCount
+	}
+}
+
+func benchTransactionBatch(b *testing.B, open func(string) (*sql.DB, error), dsn string, batchSize int) {
+	db := benchmarkDB(b, open, dsn)
+
+	names := make([]string, batchSize)
+	emails := make([]string, batchSize)
+	for i := 0; i < batchSize; i++ {
+		names[i] = fmt.Sprintf("user%d", i)
+		emails[i] = fmt.Sprintf("u%d@example.com", i)
+	}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		tx, err := db.Begin()
+		if err != nil {
+			b.Fatalf("begin: %v", err)
+		}
+		stmt, err := tx.Prepare(`INSERT INTO users (id, name, email, active) VALUES (?, ?, ?, ?)`)
+		if err != nil {
+			tx.Rollback()
+			b.Fatalf("prepare: %v", err)
+		}
+		baseID := i * batchSize
+		for j := 0; j < batchSize; j++ {
+			if _, err := stmt.Exec(baseID+j, names[j], emails[j], j%2 == 0); err != nil {
+				stmt.Close()
+				tx.Rollback()
+				b.Fatalf("exec: %v", err)
+			}
+		}
+		if err := stmt.Close(); err != nil {
+			tx.Rollback()
+			b.Fatalf("close stmt: %v", err)
+		}
+		if err := tx.Commit(); err != nil {
+			b.Fatalf("commit: %v", err)
+		}
+	}
+}
+
+func runSQLBenchmarks(b *testing.B, open func(string) (*sql.DB, error), dsn func(string) string) {
+	b.Run("InsertTxPerRow", func(b *testing.B) {
+		benchInsertTxPerRow(b, open, dsn("insert_tx"))
+	})
+	b.Run("InsertPrepared", func(b *testing.B) {
+		benchInsertPrepared(b, open, dsn("insert_prepared"))
+	})
+	b.Run("TransactionBatch100", func(b *testing.B) {
+		benchTransactionBatch(b, open, dsn("batch_100"), 100)
+	})
+	b.Run("SelectPoint", func(b *testing.B) {
+		benchSelectPoint(b, open, dsn("select_point"), 1000)
+	})
+	b.Run("SelectRange25", func(b *testing.B) {
+		benchSelectRange(b, open, dsn("select_range"), 1000)
+	})
+	b.Run("UpdatePrepared", func(b *testing.B) {
+		benchUpdatePrepared(b, open, dsn("update_prepared"), 1000)
+	})
+	b.Run("SelectJoin", func(b *testing.B) {
+		benchSelectJoin(b, open, dsn("select_join"), 200)
+	})
+}
+
+func sqliteDSN(name string) string {
+	return "file:" + name + "?mode=memory&cache=shared"
+}
+
+func Benchmark_SQLite(b *testing.B) {
+	runSQLBenchmarks(b, openSQLite, func(name string) string {
+		return sqliteDSN("sqlite_" + name)
+	})
+}
+
 func Benchmark_Insert_SQLite(b *testing.B) {
-	// modernc.org/sqlite uses driver name "sqlite" and accepts a file: DSN
-	benchInsert(b, openSQLite, "file::memory:?mode=memory&cache=shared")
+	benchInsertTxPerRow(b, openSQLite, sqliteDSN("insert_legacy"))
 }
 
 func Benchmark_SelectJoin_SQLite(b *testing.B) {
-	benchSelectJoin(b, openSQLite, "file::memory:?mode=memory&cache=shared", 200)
+	benchSelectJoin(b, openSQLite, sqliteDSN("select_join_legacy"), 200)
 }
 //go:build tinysql
 // +build tinysql
@@ -1913,10 +2246,17 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/sql
 cpu: Apple M2 Max
-Benchmark_Insert_SQLite-12        	  201996	      5970 ns/op	     992 B/op	      26 allocs/op
-Benchmark_SelectJoin_SQLite-12    	    2610	    470860 ns/op	   14824 B/op	    1212 allocs/op
+Benchmark_SQLite/InsertTxPerRow-12         	  165094	      7298 ns/op	     993 B/op	      27 allocs/op
+Benchmark_SQLite/InsertPrepared-12         	  849130	      1559 ns/op	     304 B/op	      10 allocs/op
+Benchmark_SQLite/TransactionBatch100-12    	    7782	    173344 ns/op	   31031 B/op	    1111 allocs/op
+Benchmark_SQLite/SelectPoint-12            	  697264	      1689 ns/op	     554 B/op	      20 allocs/op
+Benchmark_SQLite/SelectRange25-12          	  101010	     11794 ns/op	    2221 B/op	     180 allocs/op
+Benchmark_SQLite/UpdatePrepared-12         	  865459	      1381 ns/op	     162 B/op	       6 allocs/op
+Benchmark_SQLite/SelectJoin-12             	    3432	    353008 ns/op	   16424 B/op	    1412 allocs/op
+Benchmark_Insert_SQLite-12                 	  166222	      7450 ns/op	     992 B/op	      26 allocs/op
+Benchmark_SelectJoin_SQLite-12             	    3484	    367422 ns/op	   16424 B/op	    1412 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/sql	3.866s
+ok  	github.com/SimonWaldherr/golang-benchmarks/sql	12.119s
 ```
 
 ### sql (tinysql)
@@ -1927,10 +2267,13 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"strings"
 	"testing"
 
 	_ "modernc.org/sqlite"
 )
+
+var sqlResultSink int64
 
 func openSQLite(dsn string) (*sql.DB, error) {
 	return sql.Open("sqlite", dsn)
@@ -1938,26 +2281,82 @@ func openSQLite(dsn string) (*sql.DB, error) {
 
 // prepareSchema creates the users and orders tables used by benchmarks.
 func prepareSchema(db *sql.DB) error {
-	if _, err := db.Exec(`CREATE TABLE users (id INT, name TEXT, email TEXT, active BOOL)`); err != nil {
+	if _, err := db.Exec(`CREATE TABLE users (id INT PRIMARY KEY, name TEXT, email TEXT, active BOOL)`); err != nil {
 		return err
 	}
-	if _, err := db.Exec(`CREATE TABLE orders (id INT, user_id INT, amount FLOAT, status TEXT, meta JSON)`); err != nil {
+	if _, err := db.Exec(`CREATE TABLE orders (id INT PRIMARY KEY, user_id INT, amount FLOAT, status TEXT, meta JSON)`); err != nil {
 		return err
 	}
 	return nil
 }
 
-func benchInsert(b *testing.B, open func(string) (*sql.DB, error), dsn string) {
+func benchmarkDB(b *testing.B, open func(string) (*sql.DB, error), dsn string) *sql.DB {
 	db, err := open(dsn)
 	if err != nil {
 		b.Fatalf("open: %v", err)
 	}
-	defer db.Close()
 
 	if err := prepareSchema(db); err != nil {
+		db.Close()
 		b.Fatalf("schema: %v", err)
 	}
+	b.Cleanup(func() {
+		if err := db.Close(); err != nil {
+			b.Fatalf("close: %v", err)
+		}
+	})
 
+	return db
+}
+
+func prepareBenchmarkStmt(b *testing.B, tx interface {
+	Prepare(string) (*sql.Stmt, error)
+}, query string) *sql.Stmt {
+	stmt, err := tx.Prepare(query)
+	if err != nil {
+		b.Fatalf("prepare: %v", err)
+	}
+	b.Cleanup(func() {
+		if err := stmt.Close(); err != nil {
+			b.Fatalf("close stmt: %v", err)
+		}
+	})
+
+	return stmt
+}
+
+func populateUsersAndOrders(b *testing.B, db *sql.DB, users, ordersPerUser int) {
+	tx, err := db.Begin()
+	if err != nil {
+		b.Fatalf("begin populate: %v", err)
+	}
+
+	ustmt := prepareBenchmarkStmt(b, tx, `INSERT INTO users (id, name, email, active) VALUES (?, ?, ?, ?)`)
+	ostmt := prepareBenchmarkStmt(b, tx, `INSERT INTO orders (id, user_id, amount, status, meta) VALUES (?, ?, ?, ?, ?)`)
+
+	for i := 1; i <= users; i++ {
+		if _, err := ustmt.Exec(i, fmt.Sprintf("user%d", i), fmt.Sprintf("u%d@example.com", i), i%3 != 0); err != nil {
+			b.Fatalf("populate user: %v", err)
+		}
+		for j := 0; j < ordersPerUser; j++ {
+			id := i*100 + j
+			status := "PAID"
+			if j%4 == 0 {
+				status = "PENDING"
+			}
+			if _, err := ostmt.Exec(id, i, float64(id)*1.5, status, `{"device":"web"}`); err != nil {
+				b.Fatalf("populate order: %v", err)
+			}
+		}
+	}
+
+	if err := tx.Commit(); err != nil {
+		b.Fatalf("commit populate: %v", err)
+	}
+}
+
+func benchInsertTxPerRow(b *testing.B, open func(string) (*sql.DB, error), dsn string) {
+	db := benchmarkDB(b, open, dsn)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		tx, err := db.Begin()
@@ -1978,72 +2377,233 @@ func benchInsert(b *testing.B, open func(string) (*sql.DB, error), dsn string) {
 	}
 }
 
-func benchSelectJoin(b *testing.B, open func(string) (*sql.DB, error), dsn string, rows int) {
-	db, err := open(dsn)
-	if err != nil {
-		b.Fatalf("open: %v", err)
-	}
-	defer db.Close()
-
-	if err := prepareSchema(db); err != nil {
-		b.Fatalf("schema: %v", err)
-	}
-
-	// populate a modest dataset
+func benchInsertPrepared(b *testing.B, open func(string) (*sql.DB, error), dsn string) {
+	db := benchmarkDB(b, open, dsn)
 	tx, err := db.Begin()
 	if err != nil {
 		b.Fatalf("begin: %v", err)
 	}
-	ustmt, _ := tx.Prepare(`INSERT INTO users (id, name, email, active) VALUES (?, ?, ?, ?)`)
-	ostmt, _ := tx.Prepare(`INSERT INTO orders (id, user_id, amount, status, meta) VALUES (?, ?, ?, ?, ?)`)
-	for i := 1; i <= rows; i++ {
-		if _, err := ustmt.Exec(i, fmt.Sprintf("user%d", i), nil, true); err != nil {
-			b.Fatalf("populate user: %v", err)
-		}
-		// attach a couple orders for each user
-		for j := 0; j < 2; j++ {
-			id := i*10 + j
-			if _, err := ostmt.Exec(id, i, float64(id)*1.5, "PAID", `{"device":"web"}`); err != nil {
-				b.Fatalf("populate order: %v", err)
-			}
-		}
-	}
-	ustmt.Close()
-	ostmt.Close()
-	if err := tx.Commit(); err != nil {
-		b.Fatalf("commit populate: %v", err)
+	stmt := prepareBenchmarkStmt(b, tx, `INSERT INTO users (id, name, email, active) VALUES (?, ?, ?, ?)`)
+
+	names := make([]string, b.N)
+	emails := make([]string, b.N)
+	for i := 0; i < b.N; i++ {
+		names[i] = fmt.Sprintf("user%d", i)
+		emails[i] = fmt.Sprintf("u%d@example.com", i)
 	}
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		rows, err := db.Query(`
-            SELECT u.name AS user, SUM(o.amount) AS total, COUNT(*) AS cnt
-            FROM users u
-            LEFT JOIN orders o ON u.id = o.user_id AND o.status = 'PAID'
-            GROUP BY u.name
-        `)
-		if err != nil {
-			b.Fatalf("query: %v", err)
+		if _, err := stmt.Exec(i, names[i], emails[i], i%2 == 0); err != nil {
+			b.Fatalf("exec: %v", err)
 		}
-		for rows.Next() {
-			var name string
-			var total float64
-			var cnt int
-			if err := rows.Scan(&name, &total, &cnt); err != nil {
-				b.Fatalf("scan: %v", err)
-			}
-		}
-		rows.Close()
+	}
+	b.StopTimer()
+
+	if err := tx.Commit(); err != nil {
+		b.Fatalf("commit: %v", err)
 	}
 }
 
+func benchSelectPoint(b *testing.B, open func(string) (*sql.DB, error), dsn string, users int) {
+	db := benchmarkDB(b, open, dsn)
+	populateUsersAndOrders(b, db, users, 2)
+	stmt := prepareBenchmarkStmt(b, db, `SELECT email, active FROM users WHERE id = ?`)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		var email string
+		var active bool
+		id := i%users + 1
+		if err := stmt.QueryRow(id).Scan(&email, &active); err != nil {
+			b.Fatalf("query row: %v", err)
+		}
+		if active {
+			sqlResultSink += int64(len(email))
+		}
+	}
+}
+
+func benchSelectRange(b *testing.B, open func(string) (*sql.DB, error), dsn string, users int) {
+	db := benchmarkDB(b, open, dsn)
+	populateUsersAndOrders(b, db, users, 2)
+	stmt := prepareBenchmarkStmt(b, db, `SELECT id, name FROM users WHERE id BETWEEN ? AND ? ORDER BY id`)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		start := i%users + 1
+		end := start + 24
+		if end > users {
+			end = users
+		}
+		rows, err := stmt.Query(start, end)
+		if err != nil {
+			b.Fatalf("query: %v", err)
+		}
+
+		var count int64
+		for rows.Next() {
+			var id int
+			var name string
+			if err := rows.Scan(&id, &name); err != nil {
+				rows.Close()
+				b.Fatalf("scan: %v", err)
+			}
+			count += int64(id + len(name))
+		}
+		if err := rows.Err(); err != nil {
+			rows.Close()
+			b.Fatalf("rows: %v", err)
+		}
+		if err := rows.Close(); err != nil {
+			b.Fatalf("close rows: %v", err)
+		}
+		sqlResultSink += count
+	}
+}
+
+func benchUpdatePrepared(b *testing.B, open func(string) (*sql.DB, error), dsn string, users int) {
+	db := benchmarkDB(b, open, dsn)
+	populateUsersAndOrders(b, db, users, 1)
+	stmt := prepareBenchmarkStmt(b, db, `UPDATE users SET active = ? WHERE id = ?`)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		id := i%users + 1
+		result, err := stmt.Exec(i%2 == 0, id)
+		if err != nil {
+			b.Fatalf("exec update: %v", err)
+		}
+		affected, err := result.RowsAffected()
+		if err == nil {
+			sqlResultSink += affected
+		}
+	}
+}
+
+func benchSelectJoin(b *testing.B, open func(string) (*sql.DB, error), dsn string, rows int) {
+	db := benchmarkDB(b, open, dsn)
+	populateUsersAndOrders(b, db, rows, 2)
+
+	query := strings.TrimSpace(`
+		SELECT u.name AS user, SUM(o.amount) AS total, COUNT(o.id) AS cnt
+		FROM users u
+		LEFT JOIN orders o ON u.id = o.user_id AND o.status = 'PAID'
+		GROUP BY u.name
+		ORDER BY u.name
+	`)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		rows, err := db.Query(query)
+		if err != nil {
+			b.Fatalf("query: %v", err)
+		}
+
+		var totalCount int64
+		for rows.Next() {
+			var name string
+			var total sql.NullFloat64
+			var cnt int
+			if err := rows.Scan(&name, &total, &cnt); err != nil {
+				rows.Close()
+				b.Fatalf("scan: %v", err)
+			}
+			totalCount += int64(len(name) + cnt)
+			if total.Valid {
+				totalCount += int64(total.Float64)
+			}
+		}
+		if err := rows.Err(); err != nil {
+			rows.Close()
+			b.Fatalf("rows: %v", err)
+		}
+		if err := rows.Close(); err != nil {
+			b.Fatalf("close rows: %v", err)
+		}
+		sqlResultSink += totalCount
+	}
+}
+
+func benchTransactionBatch(b *testing.B, open func(string) (*sql.DB, error), dsn string, batchSize int) {
+	db := benchmarkDB(b, open, dsn)
+
+	names := make([]string, batchSize)
+	emails := make([]string, batchSize)
+	for i := 0; i < batchSize; i++ {
+		names[i] = fmt.Sprintf("user%d", i)
+		emails[i] = fmt.Sprintf("u%d@example.com", i)
+	}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		tx, err := db.Begin()
+		if err != nil {
+			b.Fatalf("begin: %v", err)
+		}
+		stmt, err := tx.Prepare(`INSERT INTO users (id, name, email, active) VALUES (?, ?, ?, ?)`)
+		if err != nil {
+			tx.Rollback()
+			b.Fatalf("prepare: %v", err)
+		}
+		baseID := i * batchSize
+		for j := 0; j < batchSize; j++ {
+			if _, err := stmt.Exec(baseID+j, names[j], emails[j], j%2 == 0); err != nil {
+				stmt.Close()
+				tx.Rollback()
+				b.Fatalf("exec: %v", err)
+			}
+		}
+		if err := stmt.Close(); err != nil {
+			tx.Rollback()
+			b.Fatalf("close stmt: %v", err)
+		}
+		if err := tx.Commit(); err != nil {
+			b.Fatalf("commit: %v", err)
+		}
+	}
+}
+
+func runSQLBenchmarks(b *testing.B, open func(string) (*sql.DB, error), dsn func(string) string) {
+	b.Run("InsertTxPerRow", func(b *testing.B) {
+		benchInsertTxPerRow(b, open, dsn("insert_tx"))
+	})
+	b.Run("InsertPrepared", func(b *testing.B) {
+		benchInsertPrepared(b, open, dsn("insert_prepared"))
+	})
+	b.Run("TransactionBatch100", func(b *testing.B) {
+		benchTransactionBatch(b, open, dsn("batch_100"), 100)
+	})
+	b.Run("SelectPoint", func(b *testing.B) {
+		benchSelectPoint(b, open, dsn("select_point"), 1000)
+	})
+	b.Run("SelectRange25", func(b *testing.B) {
+		benchSelectRange(b, open, dsn("select_range"), 1000)
+	})
+	b.Run("UpdatePrepared", func(b *testing.B) {
+		benchUpdatePrepared(b, open, dsn("update_prepared"), 1000)
+	})
+	b.Run("SelectJoin", func(b *testing.B) {
+		benchSelectJoin(b, open, dsn("select_join"), 200)
+	})
+}
+
+func sqliteDSN(name string) string {
+	return "file:" + name + "?mode=memory&cache=shared"
+}
+
+func Benchmark_SQLite(b *testing.B) {
+	runSQLBenchmarks(b, openSQLite, func(name string) string {
+		return sqliteDSN("sqlite_" + name)
+	})
+}
+
 func Benchmark_Insert_SQLite(b *testing.B) {
-	// modernc.org/sqlite uses driver name "sqlite" and accepts a file: DSN
-	benchInsert(b, openSQLite, "file::memory:?mode=memory&cache=shared")
+	benchInsertTxPerRow(b, openSQLite, sqliteDSN("insert_legacy"))
 }
 
 func Benchmark_SelectJoin_SQLite(b *testing.B) {
-	benchSelectJoin(b, openSQLite, "file::memory:?mode=memory&cache=shared", 200)
+	benchSelectJoin(b, openSQLite, sqliteDSN("select_join_legacy"), 200)
 }
 //go:build tinysql
 // +build tinysql
@@ -2058,11 +2618,21 @@ import (
 )
 
 func Benchmark_Insert_TinySQL(b *testing.B) {
-	benchInsert(b, func(dsn string) (*sql.DB, error) { return sql.Open("tinysql", dsn) }, "mem://?tenant=bench")
+	benchInsertTxPerRow(b, openTinySQL, "mem://?tenant=bench_insert")
 }
 
 func Benchmark_SelectJoin_TinySQL(b *testing.B) {
-	benchSelectJoin(b, func(dsn string) (*sql.DB, error) { return sql.Open("tinysql", dsn) }, "mem://?tenant=bench_select", 200)
+	benchSelectJoin(b, openTinySQL, "mem://?tenant=bench_select", 200)
+}
+
+func Benchmark_TinySQL(b *testing.B) {
+	runSQLBenchmarks(b, openTinySQL, func(name string) string {
+		return "mem://?tenant=bench_" + name
+	})
+}
+
+func openTinySQL(dsn string) (*sql.DB, error) {
+	return sql.Open("tinysql", dsn)
 }
 ```
 
@@ -2142,10 +2712,10 @@ goos: darwin
 goarch: arm64
 pkg: github.com/SimonWaldherr/golang-benchmarks/template
 cpu: Apple M2 Max
-BenchmarkTextTemplate-12    	 3456813	       332.6 ns/op	     272 B/op	       5 allocs/op
-BenchmarkHTMLTemplate-12    	 1000000	      1009 ns/op	     496 B/op	      15 allocs/op
-BenchmarkRegExp-12          	 3120174	       395.3 ns/op	     298 B/op	       9 allocs/op
+BenchmarkTextTemplate-12    	 3247826	       376.4 ns/op	     272 B/op	       5 allocs/op
+BenchmarkHTMLTemplate-12    	 1000000	      1083 ns/op	     496 B/op	      15 allocs/op
+BenchmarkRegExp-12          	 2886160	       391.3 ns/op	     298 B/op	       9 allocs/op
 PASS
-ok  	github.com/SimonWaldherr/golang-benchmarks/template	4.545s
+ok  	github.com/SimonWaldherr/golang-benchmarks/template	4.627s
 ```
 

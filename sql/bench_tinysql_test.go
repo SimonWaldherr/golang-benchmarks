@@ -11,9 +11,19 @@ import (
 )
 
 func Benchmark_Insert_TinySQL(b *testing.B) {
-	benchInsert(b, func(dsn string) (*sql.DB, error) { return sql.Open("tinysql", dsn) }, "mem://?tenant=bench")
+	benchInsertTxPerRow(b, openTinySQL, "mem://?tenant=bench_insert")
 }
 
 func Benchmark_SelectJoin_TinySQL(b *testing.B) {
-	benchSelectJoin(b, func(dsn string) (*sql.DB, error) { return sql.Open("tinysql", dsn) }, "mem://?tenant=bench_select", 200)
+	benchSelectJoin(b, openTinySQL, "mem://?tenant=bench_select", 200)
+}
+
+func Benchmark_TinySQL(b *testing.B) {
+	runSQLBenchmarks(b, openTinySQL, func(name string) string {
+		return "mem://?tenant=bench_" + name
+	})
+}
+
+func openTinySQL(dsn string) (*sql.DB, error) {
+	return sql.Open("tinysql", dsn)
 }
