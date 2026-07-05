@@ -251,6 +251,109 @@ func benchUpdatePrepared(b *testing.B, open func(string) (*sql.DB, error), dsn s
 	}
 }
 
+func benchDeletePrepared(b *testing.B, open func(string) (*sql.DB, error), dsn string, users int) {
+	db := benchmarkDB(b, open, dsn)
+	populateUsersAndOrders(b, db, users, 3)
+	stmt := prepareBenchmarkStmt(b, db, `DELETE FROM orders WHERE id = ?`)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		userID := i%users + 1
+		orderID := userID*100 + i%3
+		result, err := stmt.Exec(orderID)
+		if err != nil {
+			b.Fatalf("exec delete: %v", err)
+		}
+		affected, err := result.RowsAffected()
+		if err == nil {
+			sqlResultSink += affected
+		}
+	}
+}
+
+func benchAggregateByStatus(b *testing.B, open func(string) (*sql.DB, error), dsn string, users int) {
+	db := benchmarkDB(b, open, dsn)
+	populateUsersAndOrders(b, db, users, 6)
+	stmt := prepareBenchmarkStmt(b, db, `
+		SELECT status, COUNT(id), SUM(amount)
+		FROM orders
+		GROUP BY status
+		ORDER BY status
+	`)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		rows, err := stmt.Query()
+		if err != nil {
+			b.Fatalf("query aggregate: %v", err)
+		}
+
+		var total int64
+		for rows.Next() {
+			var status string
+			var count int
+			var amount sql.NullFloat64
+			if err := rows.Scan(&status, &count, &amount); err != nil {
+				rows.Close()
+				b.Fatalf("scan aggregate: %v", err)
+			}
+			total += int64(len(status) + count)
+			if amount.Valid {
+				total += int64(amount.Float64)
+			}
+		}
+		if err := rows.Err(); err != nil {
+			rows.Close()
+			b.Fatalf("rows aggregate: %v", err)
+		}
+		if err := rows.Close(); err != nil {
+			b.Fatalf("close rows aggregate: %v", err)
+		}
+		sqlResultSink += total
+	}
+}
+
+func benchSelectOrderedOrders(b *testing.B, open func(string) (*sql.DB, error), dsn string, users int) {
+	db := benchmarkDB(b, open, dsn)
+	populateUsersAndOrders(b, db, users, 5)
+	stmt := prepareBenchmarkStmt(b, db, `
+		SELECT id, user_id, amount, status
+		FROM orders
+		WHERE status = ?
+		ORDER BY amount
+	`)
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		rows, err := stmt.Query("PAID")
+		if err != nil {
+			b.Fatalf("query ordered orders: %v", err)
+		}
+
+		var total int64
+		for rows.Next() {
+			var id int
+			var userID int
+			var amount float64
+			var status string
+			if err := rows.Scan(&id, &userID, &amount, &status); err != nil {
+				rows.Close()
+				b.Fatalf("scan ordered orders: %v", err)
+			}
+			total += int64(id + userID + len(status))
+			total += int64(amount)
+		}
+		if err := rows.Err(); err != nil {
+			rows.Close()
+			b.Fatalf("rows ordered orders: %v", err)
+		}
+		if err := rows.Close(); err != nil {
+			b.Fatalf("close rows ordered orders: %v", err)
+		}
+		sqlResultSink += total
+	}
+}
+
 func benchSelectJoin(b *testing.B, open func(string) (*sql.DB, error), dsn string, rows int) {
 	db := benchmarkDB(b, open, dsn)
 	populateUsersAndOrders(b, db, rows, 2)
@@ -353,6 +456,15 @@ func runSQLBenchmarks(b *testing.B, open func(string) (*sql.DB, error), dsn func
 	b.Run("UpdatePrepared", func(b *testing.B) {
 		benchUpdatePrepared(b, open, dsn("update_prepared"), 1000)
 	})
+	b.Run("DeletePrepared", func(b *testing.B) {
+		benchDeletePrepared(b, open, dsn("delete_prepared"), 1000)
+	})
+	b.Run("AggregateByStatus", func(b *testing.B) {
+		benchAggregateByStatus(b, open, dsn("aggregate_status"), 1000)
+	})
+	b.Run("SelectOrderedOrders", func(b *testing.B) {
+		benchSelectOrderedOrders(b, open, dsn("select_ordered_orders"), 500)
+	})
 	b.Run("SelectJoin", func(b *testing.B) {
 		benchSelectJoin(b, open, dsn("select_join"), 200)
 	})
@@ -360,12 +472,6 @@ func runSQLBenchmarks(b *testing.B, open func(string) (*sql.DB, error), dsn func
 
 func sqliteDSN(name string) string {
 	return "file:" + name + "?mode=memory&cache=shared"
-}
-
-func Benchmark_SQLite(b *testing.B) {
-	runSQLBenchmarks(b, openSQLite, func(name string) string {
-		return sqliteDSN("sqlite_" + name)
-	})
 }
 
 func Benchmark_Insert_SQLite(b *testing.B) {

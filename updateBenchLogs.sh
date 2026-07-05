@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -euo pipefail
 
 declare -a benchs=(base64 between caseinsensitivecompare concat contains concurrency_counter embed floodfill foreach hash index json math parse random regexp sql template trim)
 
@@ -52,10 +54,10 @@ echo ""                     >> README.md
 
 for i in "${benchs[@]}"
 do
-    cd "$i"
+    pushd "$i" > /dev/null
     # skip packages without test files
     if ! ls *_test.go >/dev/null 2>&1; then
-        cd ..
+        popd > /dev/null
         continue
     fi
     gofmt -s -w -l -e .
@@ -71,24 +73,5 @@ do
     echo "\`\`\`"                       >> ../README.md
     echo                                >> ../README.md
 
-    # If package is sql, also attempt tinysql-tagged benchmarks (optional)
-    if [ "$i" = "sql" ]; then
-        echo "### sql (tinysql)"         >> ../README.md
-        echo                                >> ../README.md
-        echo "\`\`\`go"                     >> ../README.md
-        cat *_test.go                       >> ../README.md
-        echo "\`\`\`"                       >> ../README.md
-        echo                                >> ../README.md
-        echo "\`\`\`"                       >> ../README.md
-        echo "$ go test -bench . -benchmem -tags tinysql" >> ../README.md
-        if go test -bench . -benchmem -tags tinysql >> ../README.md 2>&1; then
-            :
-        else
-            echo "(tinysql benchmarks skipped or failed)" >> ../README.md
-        fi
-        echo "\`\`\`"                       >> ../README.md
-        echo                                >> ../README.md
-    fi
-
-    cd ..
+    popd > /dev/null
 done
